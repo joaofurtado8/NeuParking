@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PA</string>
+    <string name="main_email">Email</string>
+    <string name="main_password">Senha</string>
+    <string name="main_login">Login</string>
+    <string name="main_register">Register</string>
+    <string name="main_confirmpasswordin_welcome">Confirmar senha</string>
+</resources>
