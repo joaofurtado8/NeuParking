@@ -15,6 +15,7 @@ import com.google.gson.Gson
 
 
 class RegisterActivity : AppCompatActivity() {
+    lateinit var  editPlate: EditText
     lateinit var editEmail: EditText
     lateinit var editSenha : EditText
     lateinit var confirmSenha: EditText
@@ -23,17 +24,22 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        editPlate = findViewById(R.id.main_plate_et)
+        editEmail= findViewById(R.id.main_email_et)
+        editSenha= findViewById(R.id.password)
+        confirmSenha= findViewById(R.id.confirm_password)
+
         findViewById<View>(R.id.register).setOnClickListener {
-            register("asasdasd","ed@dsadsad.ddd","editSenha","editSenha")
+            val plate = editPlate.text.toString()
+            val email = editEmail.text.toString()
+            val password = editSenha.text.toString()
+            val confirmPassword = confirmSenha.text.toString()
+
+            register(plate, email, password, confirmPassword)
         }
 
-        editEmail=  findViewById(R.id.main_email_et)
-        editSenha=  findViewById(R.id.password)
-        confirmSenha=  findViewById(R.id.confirm_button)
 
     }
-
-
 }
 fun Any.toJson(): String = Gson().toJson(this)
 inline fun <reified T> String.fromJson(): T = Gson().fromJson(this, T::class.java)
@@ -41,14 +47,14 @@ inline fun <reified T> String.fromJson(): T = Gson().fromJson(this, T::class.jav
 
 fun register(plate: String, email: String, password: String, confirmpassword: String) {
     val userData = mapOf(
-        "plated" to plate,
+        "plate" to plate,
         "email" to email,
         "password" to password,
         "confirmpassword" to confirmpassword
     )
 
     val request = Request.Builder()
-        .url("http://192.168.1.106:9004/register/")
+        .url("http://192.168.1.215:8080/register/")
         .post(RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), userData.toJson())
         )
         .build()
