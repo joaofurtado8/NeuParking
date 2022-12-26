@@ -4,5 +4,8 @@
     <string name="main_password">Senha</string>
     <string name="main_login">Login</string>
     <string name="main_register">Register</string>
-    <string name="main_confirmpasswordin_welcome">Confirmar senha</string>
+    <string name="main_confirmpassword">Confirmar senha</string>
+    <string name="main_welcome">welcome</string>
+    <string name="main_plate">License Plate</string>
+
 </resources>
