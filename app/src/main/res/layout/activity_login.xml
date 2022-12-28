@@ -47,7 +47,7 @@
         android:layout_height="80dp"
         android:hint="@string/main_login"
         android:id="@+id/login"
-        app:layout_constraintTop_toBottomOf="@+id/main_password_et"
+        app:layout_constraintTop_toBottomOf="@+id/main_password_opt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:onClick="perform_action"

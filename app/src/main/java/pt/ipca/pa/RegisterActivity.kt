@@ -54,7 +54,7 @@ fun register(plate: String, email: String, password: String, confirmpassword: St
     )
 
     val request = Request.Builder()
-        .url("http://192.168.1.215:8080/register/")
+        .url("http://192.168.1.214:8080/register/")
         .post(RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), userData.toJson())
         )
         .build()
