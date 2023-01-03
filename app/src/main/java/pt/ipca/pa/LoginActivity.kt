@@ -15,10 +15,23 @@ import java.io.IOException
 import com.google.gson.Gson
 
 class LoginActivity : AppCompatActivity() {
+    lateinit var  editPlate: EditText
+    lateinit var editEmail: EditText
+    lateinit var editSenha : EditText
+    lateinit var confirmSenha: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        login("myemail@hotmail.com", "password", this)
+        editEmail= findViewById(R.id.main_email_et)
+        editSenha= findViewById(R.id.main_password_opt)
+
+        findViewById<View>(R.id.login).setOnClickListener {
+            val email = editEmail.text.toString()
+            val password = editSenha.text.toString()
+
+            login(email, password, this@LoginActivity)
+        }
+
     }
 }
 
@@ -29,7 +42,7 @@ fun login(email: String, password: String, context: Context) {
     )
 
     val request = Request.Builder()
-        .url("http://192.168.1.214:8080/login/")
+        .url("https://smart-api.onrender.com/login/")
         .post(RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), userData.toJson())
         )
         .build()

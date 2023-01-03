@@ -20,8 +20,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 
 import com.google.gson.Gson
 
@@ -78,7 +76,7 @@ data class ParkListWrapper(val parks: List<Park>)
 
 
 fun getAllParks(callback: (List<Park>) -> Unit, errorCallback: (String) -> Unit) {
-    val url = "http://192.168.1.214:8080/park"
+    val url = "https://smart-api.onrender.com/park"
     val client = OkHttpClient()
     val request = Request.Builder().url(url).build()
     client.newCall(request).enqueue(object : Callback {
