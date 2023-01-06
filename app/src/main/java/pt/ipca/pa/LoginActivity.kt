@@ -15,23 +15,21 @@ import java.io.IOException
 import com.google.gson.Gson
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var  editPlate: EditText
     lateinit var editEmail: EditText
-    lateinit var editSenha : EditText
-    lateinit var confirmSenha: EditText
+    lateinit var editPassword : EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         editEmail= findViewById(R.id.main_email_et)
-        editSenha= findViewById(R.id.main_password_opt)
+        editPassword= findViewById(R.id.main_password_opt)
 
         findViewById<View>(R.id.login).setOnClickListener {
             val email = editEmail.text.toString()
-            val password = editSenha.text.toString()
+            val password = editPassword.text.toString()
 
             login(email, password, this@LoginActivity)
         }
-
     }
 }
 
@@ -63,7 +61,6 @@ fun login(email: String, password: String, context: Context) {
                 context.startActivity(intent)
             } else {
                 // handle error
-
                 val responseJson = response.body?.string()
                 if (responseJson != null) {
                     val responseData = responseJson.fromJson<Map<String, Any>>()
@@ -72,7 +69,6 @@ fun login(email: String, password: String, context: Context) {
                 } else {
                     println("Error parsing response body")
                 }
-
             }
         }
     })
