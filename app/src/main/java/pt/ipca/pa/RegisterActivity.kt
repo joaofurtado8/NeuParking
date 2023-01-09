@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
 fun Any.toJson(): String = Gson().toJson(this)
 inline fun <reified T> String.fromJson(): T = Gson().fromJson(this, T::class.java)
 
-
+//ss
 fun register(plate: String, email: String, password: String, confirmpassword: String) {
     val userData = mapOf(
         "plate" to plate,
