@@ -15,10 +15,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
 import com.google.gson.Gson
@@ -27,71 +30,82 @@ class StatsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
-        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val recView = findViewById<RecyclerView>(R.id.recycler_view)
+        val jwtToken = intent.getStringExtra("TOKEN")
+        getParks(this, recView, jwtToken!!)
 
-        getAllParks(
-            callback = { parks ->
-                val adapter = ParkAdapter(parks)
-                recyclerView.adapter = adapter
-            },
-            errorCallback = { error ->
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
-            }
-        )
     }
 }
 
-class ParkAdapter(private val parks: List<Park>) : RecyclerView.Adapter<ParkAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val parkNameTextView: TextView = itemView.findViewById(R.id.park_name_text_view)
-        val parkLocationTextView: TextView = itemView.findViewById(R.id.park_location_text_view)
-        val parkFreeSpotsTextView: TextView = itemView.findViewById(R.id.park_free_spots_text_view)
-    }
+fun getParks(activity: StatsActivity, recView: RecyclerView, jwtToken: String) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.park_item, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val park = parks[position]
-        holder.parkNameTextView.text = park.name
-        holder.parkLocationTextView.text = park.location
-        holder.parkFreeSpotsTextView.text = park.freeSpots.toString()
-    }
-
-    override fun getItemCount(): Int {
-        return parks.size
-    }
-}
-
-class ParkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val parkNameTextView: TextView = itemView.findViewById(R.id.park_name_text_view)
-    val parkLocationTextView: TextView = itemView.findViewById(R.id.park_location_text_view)
-    val parkFreeSpotsTextView: TextView = itemView.findViewById(R.id.park_free_spots_text_view)
-}
-
-data class ParkListWrapper(val parks: List<Park>)
+    val parks = mutableListOf<Park>()
+    // Make an HTTP GET request to your API to retrieve the list of park objects
+    val request = Request.Builder()
+        .url("https://smart-api.onrender.com/parks")
+        .header("Authorization", "Bearer $jwtToken")
+        .get()
+        .build()
 
 
-fun getAllParks(callback: (List<Park>) -> Unit, errorCallback: (String) -> Unit) {
-    val url = "https://smart-api.onrender.com/park"
+
     val client = OkHttpClient()
-    val request = Request.Builder().url(url).build()
-    client.newCall(request).enqueue(object : Callback {
-        override fun onFailure(call: Call, e: IOException) {
-            errorCallback(e.message ?: "Unknown error")
-        }
-
+    client.newCall(request).enqueue(object: Callback {
         override fun onResponse(call: Call, response: Response) {
-            val responseString = response.body?.string()
-            val parkListWrapper: ParkListWrapper = Gson().fromJson(responseString, ParkListWrapper::class.java)
-            val parks = parkListWrapper.parks
-            callback(parks)
+            // Parse the JSON response
+            val responseString = response.body!!.string()
+            parks.addAll(Gson().fromJson(responseString, Array<Park>::class.java))
+
+            // Update the ListView on the main thread
+            activity.runOnUiThread() {
+
+                recView.adapter = MyAdapterRec(parks)
+                val linearLayoutManager = LinearLayoutManager(activity)
+                linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+                recView.layoutManager = linearLayoutManager
+
+            }
         }
 
+        override fun onFailure(call: Call, e: IOException) {
+            // Handle failure
+            activity.runOnUiThread {
+                Toast.makeText(activity, "Failed to retrieve parks", Toast.LENGTH_SHORT).show()
+            }
+        }
     })
 }
 
+class MyAdapterRecViewHolder(inflater: LayoutInflater, val parent: ViewGroup) :
+    RecyclerView.ViewHolder(inflater.inflate(R.layout.park_item, parent, false)) {
+    private var tv: TextView? = itemView.findViewById(R.id.park_name_text_view)
+    private var tv1: TextView? = itemView.findViewById(R.id.park_free_spots_text_view)
+    fun bindData(text: String, colorResource: Int) {
+        tv?.text = text
+        tv1?.text = text
+        itemView.setOnClickListener {
+            Toast.makeText(parent.context,text,Toast.LENGTH_LONG).show()
+        }
+    }
+}
 
+class MyAdapterRec(private val mList: List<Park>) : RecyclerView.Adapter<MyAdapterRecViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAdapterRecViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return MyAdapterRecViewHolder(inflater, parent)
+    }
+    override fun onBindViewHolder(holder: MyAdapterRecViewHolder, position: Int) {
+        val color = when(position % 2) {
+            0 -> android.R.color.holo_red_dark
+            1 -> android.R.color.holo_blue_dark
+            else -> android.R.color.holo_orange_dark
+        }
+        val text = mList.get(position).name
+        val text1 = mList.get(position).freeSpots
+
+        holder.bindData(text + "\n" + text1.toString(),color)
+    }
+    override fun getItemCount(): Int {
+        return mList.size
+    }
+}
