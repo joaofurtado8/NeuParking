@@ -1,31 +1,19 @@
-package pt.ipca.pa
+package pt.ipca.pa.Park
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import okhttp3.Call
-import okhttp3.Callback
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
-import android.content.Context
 
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 
-import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pt.ipca.pa.R
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

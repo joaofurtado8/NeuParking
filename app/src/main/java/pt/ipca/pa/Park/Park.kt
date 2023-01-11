@@ -1,4 +1,4 @@
-package pt.ipca.pa
+package pt.ipca.pa.Park
 
 data class Park(
     val name: String,
