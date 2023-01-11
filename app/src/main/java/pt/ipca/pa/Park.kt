@@ -4,6 +4,7 @@ data class Park(
     val name: String,
     val location: String,
     val description: String,
-    val freeSpots: Number,
+    val availableSpots: Number,
     val imageUrl: String
 )
+

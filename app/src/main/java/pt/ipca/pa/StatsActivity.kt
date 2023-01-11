@@ -38,11 +38,6 @@ class StatsActivity : AppCompatActivity() {
         val token = intent.getStringExtra("TOKEN")
 
         val httpClient = OkHttpClient.Builder()
-        println("Token $token")
-        httpClient.addInterceptor { chain ->
-            val request = chain.request().newBuilder().addHeader("Authorization", "Bearer $token").build()
-            chain.proceed(request)
-        }
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://smart-api.onrender.com")
@@ -52,7 +47,7 @@ class StatsActivity : AppCompatActivity() {
         val parkService = retrofit.create(ParkService::class.java)
 
         GlobalScope.launch {
-            val response = parkService.getAllParks()
+            val response = parkService.getAllParks(token = "Bearer $token")
             if (response.isSuccessful) {
                 println("Parks received")
                 response.body()?.let { parks ->
@@ -62,6 +57,7 @@ class StatsActivity : AppCompatActivity() {
                 }
             }else{
                 val error = response.errorBody()?.string()
+                println(error)
                 withContext(Dispatchers.Main){
                     Toast.makeText(this@StatsActivity, error, Toast.LENGTH_LONG).show()
                 }
@@ -75,7 +71,7 @@ class StatsActivity : AppCompatActivity() {
                 .inflate(R.layout.park_item, parent, false)
             val park = parks[position]
             view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-            view.findViewById<TextView>(R.id.park_free_spots_tv).text = park.freeSpots.toString()
+            view.findViewById<TextView>(R.id.park_free_spots_tv).text = park.availableSpots.toString()
             return view
         }
 
@@ -86,59 +82,3 @@ class StatsActivity : AppCompatActivity() {
         override fun getCount() = parks.size
     }
 }
-
-/*
-    class ParkAdapter(private val parks: List<Park>) : RecyclerView.Adapter<ParkAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val parkNameTextView: TextView = itemView.findViewById(R.id.park_name_text_view)
-        val parkLocationTextView: TextView = itemView.findViewById(R.id.park_location_text_view)
-        val parkFreeSpotsTextView: TextView = itemView.findViewById(R.id.park_free_spots_text_view)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.park_item, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val park = parks[position]
-        holder.parkNameTextView.text = park.name
-        holder.parkLocationTextView.text = park.location
-        holder.parkFreeSpotsTextView.text = park.freeSpots.toString()
-    }
-
-    override fun getItemCount(): Int {
-        return parks.size
-    }
-}
-
-class ParkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val parkNameTextView: TextView = itemView.findViewById(R.id.park_name_text_view)
-    val parkLocationTextView: TextView = itemView.findViewById(R.id.park_location_text_view)
-    val parkFreeSpotsTextView: TextView = itemView.findViewById(R.id.park_free_spots_text_view)
-}
-
-data class ParkListWrapper(val parks: List<Park>)
-
-
-fun getAllParks(callback: (List<Park>) -> Unit, errorCallback: (String) -> Unit) {
-    val url = "http://192.168.1.214:8080/park"
-    val client = OkHttpClient()
-    val request = Request.Builder().url(url).build()
-    client.newCall(request).enqueue(object : Callback {
-        override fun onFailure(call: Call, e: IOException) {
-            errorCallback(e.message ?: "Unknown error")
-        }
-
-        override fun onResponse(call: Call, response: Response) {
-            val responseString = response.body?.string()
-            val parkListWrapper: ParkListWrapper = Gson().fromJson(responseString, ParkListWrapper::class.java)
-            val parks = parkListWrapper.parks
-            callback(parks)
-        }
-
-    })
-}
-
-
-*/
