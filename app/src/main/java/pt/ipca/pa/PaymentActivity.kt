@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-
+/*
 class PaymentActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
@@ -72,3 +72,4 @@ class ReservationsAdapter(private val reservations: List<Reservation>) :
     override fun getItemCount() = reservations.size
 }
 }
+*/

@@ -56,8 +56,9 @@ fun login(email: String, password: String, context: Context) {
             if (response.isSuccessful) {
                 // handle success
                 val token = response.header("auth-token")
-                val intent = Intent(context, MainActivity::class.java)
+                val intent = Intent(context, StatsActivity::class.java)
                 intent.putExtra("TOKEN", token)
+
                 context.startActivity(intent)
             } else {
                 // handle error
