@@ -1,7 +1,7 @@
 package pt.ipca.pa.Park
 
 data class Park(
-    val name: String,
+    var name: String,
     val location: String,
     val description: String,
     val availableSpots: Number,

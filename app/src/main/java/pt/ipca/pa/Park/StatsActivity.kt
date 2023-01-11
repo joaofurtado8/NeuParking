@@ -14,6 +14,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.ipca.pa.R
+import pt.ipca.pa.SQLite.DataBaseHandler
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -41,6 +42,22 @@ class StatsActivity : AppCompatActivity() {
                 response.body()?.let { parks ->
                     withContext(Dispatchers.Main) {
                         listView.adapter = ParksAdapter(parks)
+                        val db = DataBaseHandler(this@StatsActivity)
+                        for (park in parks)
+                        {
+                            db.addPark(park)
+                            println("park added: $park.name")
+                        }
+
+
+
+                        val dbt: List<Park> = db.getParksList();
+                        for (park in dbt)
+                        {
+                            db.addPark(park)
+                            println("lindo: $park.name")
+                        }
+
                     }
                 }
             }else{
@@ -68,5 +85,7 @@ class StatsActivity : AppCompatActivity() {
         override fun getItemId(position: Int) = position.toLong()
 
         override fun getCount() = parks.size
+
+
     }
 }
