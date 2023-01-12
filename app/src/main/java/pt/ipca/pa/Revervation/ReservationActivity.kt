@@ -1,12 +1,22 @@
 package pt.ipca.pa.Revervation
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import pt.ipca.pa.Park.Park
+import pt.ipca.pa.Park.ParkService
+import pt.ipca.pa.Park.StatsActivity
 import pt.ipca.pa.R
+import pt.ipca.pa.SQLite.DataBaseHandler
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,23 +46,32 @@ class ReservationActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        val reservationService = retrofit.create(ReserveService::class.java)
 
-
-
-        fun addUser(userData: ReserveService, onResult: (ReserveService?) -> Unit) {
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(object : Interceptor {
-                    override fun intercept(chain: Interceptor.Chain): Response {
-                        val newRequest = chain.request().newBuilder()
-                            .addHeader("Authorization", "Bearer $token")
-                            .build()
-                        return chain.proceed(newRequest)
+        GlobalScope.launch {
+            reservationService.addReservation(reservation, "Bearer $token")
+                .enqueue(object : Callback<Reservation> {
+                    override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
+                        if (response.isSuccessful) {
+                            println("Reservation added successfully")
+                        } else {
+                            val error = response.errorBody()?.string()
+                            println(error)
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@ReservationActivity, error, Toast.LENGTH_LONG).show()
+                            }
+                        }
                     }
-                }).build()
+
+                    override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                        println("Error: $t")
+                    }
+                })
+        }
 
 
 
-            val retrofit = ReserveService.buildService(RestApi::class.java, okHttpClient)
+        val retrofit = ReserveService.buildService(RestApi::class.java, okHttpClient)
             retrofit.addUser(userData).enqueue(
                 object : Callback<UserInfo> {
                     override fun onFailure(call: Call<Reservation>, t: Throwable) {
@@ -68,3 +87,31 @@ class ReservationActivity : AppCompatActivity() {
         }
 
 }
+
+
+
+fun addReservation(reservation: Reservation, token: String, context: Context) {
+    GlobalScope.launch {
+        reservationService.addReservation(reservation, "Bearer $token")
+            .enqueue(object : Callback<Reservation> {
+                override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
+                    if (response.isSuccessful) {
+                        println("Reservation added successfully")
+                    } else {
+                        val error = response.errorBody()?.string()
+                        println(error)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<Reservation>, t: Throwable) {
+                    println("Error: $t")
+                }
+            })
+    }
+}
+
+
+
