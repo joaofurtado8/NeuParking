@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import pt.ipca.pa.Park.Park
 import pt.ipca.pa.Park.ParkService
 import pt.ipca.pa.Park.StatsActivity
@@ -38,6 +42,7 @@ class ReservationActivity : AppCompatActivity() {
         editDay = findViewById(R.id.day_et)
         reservationBtn = findViewById(R.id.reservation_bt)
 
+
         val token = intent.getStringExtra("TOKEN")
 
         val reservation = Reservation(
@@ -47,7 +52,7 @@ class ReservationActivity : AppCompatActivity() {
             "18:00",
             "16-06-2022"
         )
-
+        println(reservation.userId)
         addReservation(reservation, token!!, this@ReservationActivity)
 
     }
@@ -63,7 +68,10 @@ class ReservationActivity : AppCompatActivity() {
 
         val reservationService = retrofit.create(ReserveService::class.java)
 
-        reservationService.addReservation(reservation, "Bearer $token")
+        val json = Gson().toJson(reservation)
+        val requestBody = RequestBody.create("application/json".toMediaType(), json)
+
+        reservationService.addReservation(requestBody, "Bearer $token")
             .enqueue(object : Callback<Reservation> {
                 override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
 
@@ -83,6 +91,8 @@ class ReservationActivity : AppCompatActivity() {
                     println("Error: $t")
                 }
             })
-    }
-}
+
+                    }
+                }
+
 

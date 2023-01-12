@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class Reservation (
     val slotId : String,
     val userId : String,
-    val starTime: String,
+    val startTime: String,
     val endTime: String,
     val day: String
     )
