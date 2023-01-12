@@ -1,9 +1,10 @@
-package pt.ipca.pa
+package pt.ipca.pa.Park
 
 data class Park(
-    val name: String,
+    var name: String,
     val location: String,
     val description: String,
-    val freeSpots: Number,
+    val availableSpots: Number,
     val imageUrl: String
 )
+

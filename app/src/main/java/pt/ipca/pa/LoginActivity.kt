@@ -4,15 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.util.AttributeSet
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
-import com.google.gson.Gson
+import pt.ipca.pa.Park.StatsActivity
 
 class LoginActivity : AppCompatActivity() {
     lateinit var editEmail: EditText
@@ -56,8 +53,9 @@ fun login(email: String, password: String, context: Context) {
             if (response.isSuccessful) {
                 // handle success
                 val token = response.header("auth-token")
-                val intent = Intent(context, MainActivity::class.java)
+                val intent = Intent(context, StatsActivity::class.java)
                 intent.putExtra("TOKEN", token)
+
                 context.startActivity(intent)
             } else {
                 // handle error
