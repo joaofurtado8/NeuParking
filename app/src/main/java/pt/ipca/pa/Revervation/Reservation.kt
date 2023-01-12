@@ -1,4 +1,6 @@
-package pt.ipca.pa
+package pt.ipca.pa.Revervation
+
+import com.google.gson.annotations.SerializedName
 
 
 data class Reservation (
@@ -8,3 +10,5 @@ data class Reservation (
     val endTime: String,
     val day: String
     )
+
+

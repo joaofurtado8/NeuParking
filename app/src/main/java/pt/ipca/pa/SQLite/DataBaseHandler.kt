@@ -70,7 +70,8 @@ val park=ppPark(mouse)
         park.name=mouse.getString(mouse.getColumnIndexOrThrow(NAME))
         return park
     }
-
+//falta funcoes
+    //ver video
 
 
     companion object{
