@@ -67,7 +67,7 @@ class ReservationActivity : AppCompatActivity() {
             .build()
 
         val reservationService = retrofit.create(ReserveService::class.java)
-
+//gg
         val json = Gson().toJson(reservation)
         val requestBody = RequestBody.create("application/json".toMediaType(), json)
 
