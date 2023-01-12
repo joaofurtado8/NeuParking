@@ -11,20 +11,16 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:text="22/11/2002"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="60dp"
         android:text="$999.99"
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:background="@drawable/checkbox" />
 
 </LinearLayout>
