@@ -6,6 +6,6 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ParkService {
-    @POST("reservations")
+    @GET("park")
     suspend fun getAllParks(@Header("Authorization") token: String): Response<List<Park>>
 }
