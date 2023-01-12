@@ -23,11 +23,12 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class ReservationActivity : AppCompatActivity() {
     lateinit var editStartTime: EditText
-    lateinit var editEndTime : EditText
-    lateinit var editDay : EditText
-    lateinit var reservationBtn : Button
+    lateinit var editEndTime: EditText
+    lateinit var editDay: EditText
+    lateinit var reservationBtn: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation)
@@ -39,7 +40,21 @@ class ReservationActivity : AppCompatActivity() {
 
         val token = intent.getStringExtra("TOKEN")
 
+        val reservation = Reservation(
+            "Ze5cr892j9A9PGXluVtR",
+            "63a1caec7bd2350a9d54c515",
+            "17:00",
+            "18:00",
+            "16-06-2022"
+        )
 
+        addReservation(reservation, token!!, this@ReservationActivity)
+
+    }
+
+
+    fun addReservation(reservation: Reservation, token: String, context: Context) {
+        println("in Function")
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://smart-api.onrender.com")
@@ -48,59 +63,17 @@ class ReservationActivity : AppCompatActivity() {
 
         val reservationService = retrofit.create(ReserveService::class.java)
 
-        GlobalScope.launch {
-            reservationService.addReservation(reservation, "Bearer $token")
-                .enqueue(object : Callback<Reservation> {
-                    override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
-                        if (response.isSuccessful) {
-                            println("Reservation added successfully")
-                        } else {
-                            val error = response.errorBody()?.string()
-                            println(error)
-                            withContext(Dispatchers.Main) {
-                                Toast.makeText(this@ReservationActivity, error, Toast.LENGTH_LONG).show()
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Reservation>, t: Throwable) {
-                        println("Error: $t")
-                    }
-                })
-        }
-
-
-
-        val retrofit = ReserveService.buildService(RestApi::class.java, okHttpClient)
-            retrofit.addUser(userData).enqueue(
-                object : Callback<UserInfo> {
-                    override fun onFailure(call: Call<Reservation>, t: Throwable) {
-                        onResult(null)
-                    }
-
-                    override fun onResponse( call: Call<Reservation>, response: Response<Reservation>) {
-                        val addedUser = response.body()
-                        onResult(addedUser)
-                    }
-                }
-            )
-        }
-
-}
-
-
-
-fun addReservation(reservation: Reservation, token: String, context: Context) {
-    GlobalScope.launch {
         reservationService.addReservation(reservation, "Bearer $token")
             .enqueue(object : Callback<Reservation> {
                 override fun onResponse(call: Call<Reservation>, response: Response<Reservation>) {
+
                     if (response.isSuccessful) {
                         println("Reservation added successfully")
                     } else {
                         val error = response.errorBody()?.string()
-                        println(error)
-                        withContext(Dispatchers.Main) {
+                        print(error)
+                        println("in here")
+                        GlobalScope.launch(Dispatchers.Main) {
                             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
                         }
                     }
@@ -112,6 +85,4 @@ fun addReservation(reservation: Reservation, token: String, context: Context) {
             })
     }
 }
-
-
 
