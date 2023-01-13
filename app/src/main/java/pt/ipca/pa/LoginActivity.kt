@@ -10,6 +10,7 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
 import pt.ipca.pa.Park.StatsActivity
+import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.Revervation.Reservation
 import pt.ipca.pa.Revervation.ReservationActivity
 
@@ -55,7 +56,7 @@ fun login(email: String, password: String, context: Context) {
             if (response.isSuccessful) {
                 // handle success
                 val token = response.header("auth-token")
-                val intent = Intent(context, ReservationActivity::class.java)
+                val intent = Intent(context, ListPaymentActivity::class.java)
                 intent.putExtra("TOKEN", token)
 
                 context.startActivity(intent)
