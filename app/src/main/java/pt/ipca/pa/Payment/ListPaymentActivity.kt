@@ -2,6 +2,11 @@ package pt.ipca.pa.Payment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -12,6 +17,7 @@ import pt.ipca.pa.Park.Park
 import pt.ipca.pa.Park.ParkService
 import pt.ipca.pa.Park.StatsActivity
 import pt.ipca.pa.R
+import pt.ipca.pa.Revervation.Reservation
 import pt.ipca.pa.Revervation.ReserveService
 import pt.ipca.pa.SQLite.DataBaseHandler
 import retrofit2.Retrofit
@@ -53,6 +59,32 @@ class ListPaymentActivity : AppCompatActivity() {
             }
         }
     }
+
+    class ListPaymentAdapter(private val reservations: List<Reservation>) : BaseAdapter() {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val view: View = convertView ?: LayoutInflater.from(parent?.context)
+                .inflate(R.layout.reservation_item, parent, false)
+            val reservation = reservations[position]
+
+            val amount = (reservation.endTime - reservation.startTime) * 1
+
+            view.findViewById<TextView>(R.id.date).text = reservation.day
+            view.findViewById<TextView>(R.id.amount).text = amount
+
+
+
+            return view
+        }
+        override fun getItem(position: Int) = reservations[position]
+
+        override fun getItemId(position: Int) = position.toLong()
+
+        override fun getCount() = reservations.size
+    }
+
 }
+
+
+
 
 
