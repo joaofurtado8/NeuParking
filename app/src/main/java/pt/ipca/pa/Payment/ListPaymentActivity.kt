@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
@@ -25,9 +26,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ListPaymentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        lateinit var paymentsList : ListView
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_payment)
-
+        paymentsList = findViewById<ListView>(R.id.payments_list)
 
 
         val token = intent.getStringExtra("TOKEN")
@@ -48,11 +50,7 @@ class ListPaymentActivity : AppCompatActivity() {
                 println("Reserves received")
                 response.body()?.let { reserve ->
                     withContext(Dispatchers.Main) {
-                        //listView.adapter = StatsActivity.ParksAdapter(parks)
-                        // val db = DataBaseHandler(this@ListPaymentActivity)
-                        for (res in reserve) {
-                            println("Reservas: $res")
-                        }
+                        paymentsList.adapter = ListPaymentActivity.ListPaymentAdapter(reserve)
 
                     }
                 }
@@ -66,10 +64,12 @@ class ListPaymentActivity : AppCompatActivity() {
                 .inflate(R.layout.reservation_item, parent, false)
             val reservation = reservations[position]
 
-            val amount = (reservation.endTime - reservation.startTime) * 1
+            reservation.endTime
 
-            view.findViewById<TextView>(R.id.date).text = reservation.day
-            view.findViewById<TextView>(R.id.amount).text = amount
+            val amount = (reservation.endTime.time - reservation.startTime.time) * 1
+
+            view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
+            view.findViewById<TextView>(R.id.amount).text = amount.toString()
 
 
 
