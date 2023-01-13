@@ -27,6 +27,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.DateFormat
+import java.util.*
 
 
 class ReservationActivity : AppCompatActivity() {
@@ -49,9 +51,9 @@ class ReservationActivity : AppCompatActivity() {
         val reservation = Reservation(
             "Ze5cr892j9A9PGXluVtR",
             "63a1caec7bd2350a9d54c515",
-            "17:00",
-            "18:00",
-            "16-06-2022"
+            DateFormat.getDateInstance().parse("2023-01-16T12:00:00Z"),
+            DateFormat.getDateInstance().parse("2023-01-16T18:00:00Z"),
+            DateFormat.getDateInstance().parse("2023-01-16")
         )
         println(reservation.userId)
         addReservation(reservation, token!!, this@ReservationActivity)

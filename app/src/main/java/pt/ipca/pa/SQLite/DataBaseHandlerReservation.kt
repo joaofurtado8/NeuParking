@@ -9,7 +9,7 @@ import androidx.core.content.contentValuesOf
 import pt.ipca.pa.Park.Park
 import pt.ipca.pa.Revervation.Reservation
 import java.util.jar.Attributes
-
+/*
 class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VERSION) {
 
 //Primeira vez que entrar cria a tabela
@@ -87,3 +87,4 @@ fun addReservation(reservation:Reservation)
         private val DAY="Day"
     }
 }
+*/
