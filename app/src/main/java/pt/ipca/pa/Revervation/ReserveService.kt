@@ -9,6 +9,6 @@ import retrofit2.http.*
 interface ReserveService {
     @POST("reservation")
     fun addReservation(@Body reservation: RequestBody, @Header("Authorization") token: String): Call<Reservation>
-    @GET("reservation")
+    @GET("reservationUser")
     suspend fun getPaymentsByUser(@Header("Authorization") token: String):  Response<List<Reservation>>
-}
+}//enviar id
