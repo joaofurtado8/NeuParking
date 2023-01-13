@@ -56,7 +56,7 @@ fun login(email: String, password: String, context: Context) {
             if (response.isSuccessful) {
                 // handle success
                 val token = response.header("auth-token")
-                val intent = Intent(context, ReservationActivity::class.java)
+                val intent = Intent(context, ListPaymentActivity::class.java)
                 intent.putExtra("TOKEN", token)
               //  val intent = Intent(context, ListPaymentActivity::class.java)
 
