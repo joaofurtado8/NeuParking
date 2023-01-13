@@ -50,9 +50,9 @@ class ListPaymentActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
                         //listView.adapter = StatsActivity.ParksAdapter(parks)
                         // val db = DataBaseHandler(this@ListPaymentActivity)
-                        for (res in reserve) {
+                        /*for (res in reserve) {
                             println("Reservas: $res")
-                        }
+                        }*/
 
                     }
                 }

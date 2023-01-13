@@ -47,31 +47,31 @@ fun addReservation(reservation:Reservation)
         mouse?.moveToFirst()
          val reservation=ppReservation(mouse)
         mouse.close()
-        return park
+        return reservation
     }
 
 
-    fun getParksList():ArrayList<Park>{
-        var parkList=ArrayList<Park>()
+    fun getReservationList():ArrayList<Reservation>{
+        var reservationList=ArrayList<Reservation>()
         val p0 =readableDatabase
         val selectQuery="SELECT * fROM $TABLE_NAME"
         val mouse =p0.rawQuery(selectQuery,null)
         if(mouse!=null)
             if(mouse.moveToFirst()){
                 do{
-val park=ppPark(mouse)
-                    parkList.add(park)
+                val reservation=ppReservation(mouse)
+                    reservationList.add(reservation)
                 }while (mouse.moveToNext())
             }
         mouse.close()
-        return parkList
+        return reservationList
     }
 
 
-    fun ppPark(mouse:Cursor):Park{
-        var park=Park("","","",0,"",)
-        park.name=mouse.getString(mouse.getColumnIndexOrThrow(NAME))
-        return park
+    fun ppReservation(mouse:Cursor):Reservation{
+        var reservation=Reservation("","","","","")
+        reservation.slotId=mouse.getString(mouse.getColumnIndexOrThrow(SLOT_ID))
+        return reservation
     }
 //falta funcoes
     //ver video
