@@ -45,7 +45,7 @@ class ListPaymentActivity : AppCompatActivity() {
                         //listView.adapter = StatsActivity.ParksAdapter(parks)
                         // val db = DataBaseHandler(this@ListPaymentActivity)
                         for (res in reserve) {
-                            println("olaaaa o ruben é gay: $res")
+                            println("Reservas: $res")
                         }
 
                     }
