@@ -8,5 +8,5 @@ import retrofit2.http.*
 
 interface ReserveService {
     @POST("reservation")
-    fun addReservation(@Body reservation: RequestBody, @Header("Authorization") token: String): Call<Reservation>
+    fun addReservation(@Body reservation: Reservation, @Header("Authorization") token: String): Call<Reservation>
 }

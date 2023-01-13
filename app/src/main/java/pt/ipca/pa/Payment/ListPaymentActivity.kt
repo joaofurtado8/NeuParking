@@ -22,7 +22,7 @@ class ListPaymentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_payment)
 
-
+/*
         val token = intent.getStringExtra("TOKEN")
 
         val httpClient = OkHttpClient.Builder()
@@ -52,5 +52,7 @@ class ListPaymentActivity : AppCompatActivity() {
             }
             }
         }
-    }
+    */
 
+    }
+}

@@ -34,6 +34,15 @@ class StatsActivity : AppCompatActivity() {
             .build()
 
         val parkService = retrofit.create(ParkService::class.java)
+        val btn = findViewById<Button>(R.id.btn)
+
+        btn.setOnClickListener {
+            Toast.makeText(
+                this@StatsActivity,
+                "You clicked on me",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
         GlobalScope.launch {
             val response = parkService.getAllParks(token = "Bearer $token")
@@ -43,49 +52,52 @@ class StatsActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
                         listView.adapter = ParksAdapter(parks)
                         val db = DataBaseHandler(this@StatsActivity)
-                        for (park in parks)
-                        {
+                        for (park in parks) {
                             db.addPark(park)
                             println("park added: $park.name")
                         }
-
-
-
-                        val dbt: List<Park> = db.getParksList();
-                        for (park in dbt)
-                        {
-                            db.addPark(park)
-                            println("lindo: $park.name")
-                        }
-
                     }
                 }
-            }else{
+            } else {
                 val error = response.errorBody()?.string()
                 println(error)
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     Toast.makeText(this@StatsActivity, error, Toast.LENGTH_LONG).show()
                 }
             }
         }
-    }
-
-    class ParksAdapter(private val parks: List<Park>) : BaseAdapter() {
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view: View = convertView ?: LayoutInflater.from(parent?.context)
-                .inflate(R.layout.park_item, parent, false)
-            val park = parks[position]
-            view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-            view.findViewById<TextView>(R.id.park_free_spots_tv).text = park.availableSpots.toString()
-            return view
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val item = parent.getItemAtPosition(position) as Park
+            println(item.name)
+            runOnUiThread {
+                Toast.makeText(
+                    this@StatsActivity,
+                    "You clicked on ${item.name}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
-
-        override fun getItem(position: Int) = parks[position]
-
-        override fun getItemId(position: Int) = position.toLong()
-
-        override fun getCount() = parks.size
 
 
     }
 }
+class ParksAdapter(private val parks: List<Park>) : BaseAdapter() {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View = convertView ?: LayoutInflater.from(parent?.context)
+            .inflate(R.layout.park_item, parent, false)
+        val park = parks[position]
+        view.findViewById<TextView>(R.id.park_name_tv).text = park.name
+        view.findViewById<TextView>(R.id.park_free_spots_tv).text =
+            park.availableSpots.toString()
+        return view
+    }
+
+    override fun getItem(position: Int) = parks[position]
+
+    override fun getItemId(position: Int) = position.toLong()
+
+    override fun getCount() = parks.size
+
+
+}
+
