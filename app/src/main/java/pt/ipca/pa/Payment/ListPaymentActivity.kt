@@ -23,6 +23,7 @@ class ListPaymentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_list_payment)
 
 
+
         val token = intent.getStringExtra("TOKEN")
 
         val httpClient = OkHttpClient.Builder()
@@ -42,7 +43,7 @@ class ListPaymentActivity : AppCompatActivity() {
                 response.body()?.let { reserve ->
                     withContext(Dispatchers.Main) {
                         //listView.adapter = StatsActivity.ParksAdapter(parks)
-                       // val db = DataBaseHandler(this@ListPaymentActivity)
+                        // val db = DataBaseHandler(this@ListPaymentActivity)
                         for (res in reserve) {
                             println("olaaaa: $res")
                         }
@@ -50,7 +51,8 @@ class ListPaymentActivity : AppCompatActivity() {
                     }
                 }
             }
-            }
         }
     }
+}
+
 
