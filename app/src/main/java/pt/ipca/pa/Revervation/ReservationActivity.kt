@@ -3,9 +3,10 @@ package pt.ipca.pa.Revervation
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -94,5 +95,6 @@ class ReservationActivity : AppCompatActivity() {
 
                     }
                 }
+
 
 
