@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface ParkService {
     @GET("park")
-    suspend fun getAllParks(@Header("Authorization") token: String): Response<List<Park>>
+    suspend  fun getAllParks(@Header("Authorization") token: String): Response<List<Park>>
 }

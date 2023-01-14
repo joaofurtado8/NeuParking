@@ -30,7 +30,7 @@ class ListPaymentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_payment)
 
-        paymentsList = findViewById<ListView>(R.id.payments_list)
+//        paymentsList = findViewById<ListView>(R.id.payments_list)
 
 
         val token = intent.getStringExtra("TOKEN")

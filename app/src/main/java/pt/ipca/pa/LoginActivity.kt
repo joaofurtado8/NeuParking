@@ -2,27 +2,28 @@ package pt.ipca.pa
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import com.auth0.jwt.JWT
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import java.io.IOException
 import pt.ipca.pa.Park.StatsActivity
-import pt.ipca.pa.Payment.ListPaymentActivity
-import pt.ipca.pa.Revervation.Reservation
-import pt.ipca.pa.Revervation.ReservationActivity
+import pt.ipca.pa.data.User
+import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
+import java.io.IOException
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var editEmail: EditText
-    lateinit var editPassword : EditText
+    lateinit var editPassword: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        editEmail= findViewById(R.id.main_email_et)
-        editPassword= findViewById(R.id.main_password_opt)
+        editEmail = findViewById(R.id.main_email_et)
+        editPassword = findViewById(R.id.main_password_opt)
 
         findViewById<View>(R.id.login).setOnClickListener {
             val email = editEmail.text.toString()
@@ -41,7 +42,11 @@ fun login(email: String, password: String, context: Context) {
 
     val request = Request.Builder()
         .url("https://smart-api.onrender.com/login/")
-        .post(RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), userData.toJson())
+        .post(
+            RequestBody.create(
+                "application/json; charset=utf-8".toMediaTypeOrNull(),
+                userData.toJson()
+            )
         )
         .build()
 
@@ -56,9 +61,21 @@ fun login(email: String, password: String, context: Context) {
             if (response.isSuccessful) {
                 // handle success
                 val token = response.header("auth-token")
-                val intent = Intent(context, ListPaymentActivity::class.java)
-                intent.putExtra("TOKEN", token)
-              //  val intent = Intent(context, ListPaymentActivity::class.java)
+
+                val decodedJWT = JWT.decode(token)
+
+                val subject = decodedJWT.claims.entries
+                var userID:String =""
+                subject.forEach {
+
+                    if (it.key == "__id") {
+                        userID= it.value.toString()
+                    }
+
+                }
+                val intent = Intent(context, StatsActivity::class.java)
+                intent.putExtra(TOKEN, User(token, userID))
+                //  val intent = Intent(context, ListPaymentActivity::class.java)
 
                 context.startActivity(intent)
             } else {
