@@ -12,6 +12,7 @@ import java.io.IOException
 import pt.ipca.pa.Park.StatsActivity
 import pt.ipca.pa.Revervation.Reservation
 import pt.ipca.pa.Revervation.ReservationActivity
+import pt.ipca.pa.Slots.SlotActivity
 
 class LoginActivity : AppCompatActivity() {
     lateinit var editEmail: EditText
@@ -55,7 +56,7 @@ fun login(email: String, password: String, context: Context) {
             if (response.isSuccessful) {
                 // handle success
                 val token = response.header("auth-token")
-                val intent = Intent(context, StatsActivity::class.java)
+                val intent = Intent(context, SlotActivity::class.java)
                 intent.putExtra("TOKEN", token)
 
                 context.startActivity(intent)

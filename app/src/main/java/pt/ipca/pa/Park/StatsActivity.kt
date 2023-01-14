@@ -39,7 +39,7 @@ class StatsActivity : AppCompatActivity() {
         btn.setOnClickListener {
             Toast.makeText(
                 this@StatsActivity,
-                "You clicked on me",
+                "You clicked on me", 
                 Toast.LENGTH_SHORT
             ).show()
         }

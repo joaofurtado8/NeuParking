@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <!--
     <EditText
         android:layout_width="300dp"
         android:layout_height="100dp"
@@ -25,6 +25,16 @@
         app:layout_constraintTop_toBottomOf="@id/start_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+    -->
+    <Spinner
+        android:id="@+id/end_et"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:hint="@string/reservation_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start_et" />
 
     <EditText
         android:layout_width="300dp"
