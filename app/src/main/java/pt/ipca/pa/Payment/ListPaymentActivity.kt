@@ -23,6 +23,8 @@ import pt.ipca.pa.data.User
 import pt.ipca.pa.model.ReservationModel
 import pt.ipca.pa.utils.ConstantsUtils
 import retrofit2.Response
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 
 class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
@@ -42,9 +44,8 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
         controller.bind(this@ListPaymentActivity)
         GlobalScope.launch {
-            controller.getReservationsByUser(user.token)
+            controller.getReservationsByUser(user.token, user.userID.toString())
         }
-
     }
 
     class ListPaymentAdapter(private val reservations: List<Reservation>,var reservationView: ReservationView) : BaseAdapter() {
@@ -53,15 +54,17 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
                 .inflate(R.layout.reservation_item, parent, false)
             val reservation = reservations[position]
 
-            reservation.endTime
-
-            //val amount = (reservation.endTime.time - reservation.startTime.time) * 1
+            val dateFormat = SimpleDateFormat("HH:mm:ss")
+            val startTime = dateFormat.parse(reservation.startTime)
+            val endTime = dateFormat.parse(reservation.endTime)
+            val diffInMillisec = endTime.time - startTime.time
+            val diffInMinutes = diffInMillisec / (60 * 1000) % 60
+            val diffInHours = diffInMillisec / (60 * 60 * 1000) + diffInMinutes / 60.0
+            val decimalFormat = DecimalFormat("#.##")
+            val amount = String.format("%.2f", diffInHours * 1.25).toDouble()
 
             view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
-            // view.findViewById<TextView>(R.id.amount).text = amount.toString()
-
-
-
+            view.findViewById<TextView>(R.id.amount).text = amount.toString()
 
             return view
         }

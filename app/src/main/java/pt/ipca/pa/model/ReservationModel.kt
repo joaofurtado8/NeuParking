@@ -7,8 +7,8 @@ import retrofit2.Response
 
 class ReservationModel {
 
-    suspend  fun getReservationsByUser(token: String?): Response<List<Reservation>> {
+    suspend  fun getReservationsByUser(token: String?, userId: String?): Response<List<Reservation>> {
 
-        return RetrofitAPI.getReservationService.getPaymentsByUser(token = "Bearer $token")
+        return RetrofitAPI.getReservationService.getPaymentsByUser(token = "Bearer $token", userId!!)
     }
 }

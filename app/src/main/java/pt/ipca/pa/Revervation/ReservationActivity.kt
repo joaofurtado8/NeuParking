@@ -58,8 +58,8 @@ class ReservationActivity : AppCompatActivity() {
             val reservation = Reservation(
                 slotId.toString(),
                 userId.toString(),
-                editStartTime.text.toString(),
-                editEndTime.text.toString(),
+                editStartTime.text.toString()+":00",
+                editEndTime.text.toString()+":00",
                 editDay.text.toString()
             )
             println(userId.toString())

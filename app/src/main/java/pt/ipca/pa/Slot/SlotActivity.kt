@@ -69,7 +69,6 @@ class SlotActivity : SlotView, AppCompatActivity() {
         }
     }
 
-
     override fun onAllSlotsSuccess(response: Response<List<Slot>>) {
         println("Slots received")
         response.body()?.let { slots ->

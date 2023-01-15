@@ -12,8 +12,8 @@ class ReservationController(private val model: ReservationModel){
     fun bind(reservationView: ReservationView) {
         view = reservationView
     }
-    suspend fun getReservationsByUser(id: String?) {
-        val response = model.getReservationsByUser(id)
+    suspend fun getReservationsByUser(id: String?, userId: String?) {
+        val response = model.getReservationsByUser(id, userId)
 
         if (response.isSuccessful) {
             println("Reservations Receives")
