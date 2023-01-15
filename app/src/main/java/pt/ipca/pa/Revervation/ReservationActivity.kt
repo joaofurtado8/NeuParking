@@ -26,6 +26,8 @@ import pt.ipca.pa.Park.ParkService
 import pt.ipca.pa.Park.StatsActivity
 import pt.ipca.pa.R
 import pt.ipca.pa.SQLite.DataBaseHandler
+import pt.ipca.pa.data.User
+import pt.ipca.pa.utils.ConstantsUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +44,10 @@ class ReservationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation)
-        val token = intent.getStringExtra("TOKEN")
+        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
+        val slotId = intent.getStringExtra("SLOT_ID")
+        val userId = intent.getStringExtra("USER_ID")
+
         editStartTime = findViewById(R.id.start_et)
         editEndTime = findViewById(R.id.end_et)
         editDay = findViewById(R.id.day_et)
@@ -51,37 +56,14 @@ class ReservationActivity : AppCompatActivity() {
         reservationBtn.setOnClickListener {
 
             val reservation = Reservation(
-                "Ze5cr892j9A9PGXluVtR",
-                "63a1caec7bd2350a9d54c515",
+                slotId.toString(),
+                userId.toString(),
                 editStartTime.text.toString(),
                 editEndTime.text.toString(),
                 editDay.text.toString()
             )
-            /*
-            val response = ServiceBuilder.buildService(ReserveService::class.java)
-            response.addReservation(reservation, "Bearer $token").enqueue(
-                object : Callback<Reservation> {
-                    override fun onResponse(
-                        call: Call<Reservation>,
-                        response: Response<Reservation>
-                    ) {
-                        if (response.isSuccessful) {
-                            // Change activities if the post is successful
-                            println("added")
-                            val intent = Intent(this@ReservationActivity, StatsActivity::class.java)
-                            intent.putExtra("TOKEN", token)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this@ReservationActivity,response.message().toString(),Toast.LENGTH_LONG).show()
-                        }
-                    }
-                    override fun onFailure(call: Call<Reservation>, t: Throwable) {
-                        Toast.makeText(this@ReservationActivity,t.toString(),Toast.LENGTH_LONG).show()
-                    }
-                }
-            )
-            */
-            addReservation(reservation, token!!, this@ReservationActivity)
+
+            addReservation(reservation, user.token.toString()!!, this@ReservationActivity)
         }
     }
 
@@ -93,8 +75,7 @@ class ReservationActivity : AppCompatActivity() {
             .baseUrl("https://smart-api.onrender.com")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-
-
+        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
         val reservationService = retrofit.create(ReserveService::class.java)
         val json = Gson().toJson(reservation)
         val requestBody = RequestBody.create("application/json".toMediaType(), json)
@@ -106,7 +87,7 @@ class ReservationActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         println("Reservation added successfully")
                         val intent = Intent(this@ReservationActivity, StatsActivity::class.java)
-                        intent.putExtra("TOKEN", token)
+                        intent.putExtra(ConstantsUtils.TOKEN, user)
                         startActivity(intent)
                     } else {
                         val errorBody = response.errorBody()
