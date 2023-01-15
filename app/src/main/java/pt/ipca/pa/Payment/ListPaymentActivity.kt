@@ -22,6 +22,7 @@ import pt.ipca.pa.data.User
 import pt.ipca.pa.model.ReservationModel
 import pt.ipca.pa.utils.ConstantsUtils
 import retrofit2.Response
+import java.text.SimpleDateFormat
 
 class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
@@ -52,12 +53,17 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
                 .inflate(R.layout.reservation_item, parent, false)
             val reservation = reservations[position]
 
-            reservation.endTime
+            val dateFormat = SimpleDateFormat("HH:mm:ss")
+            val startTime = dateFormat.parse(reservation.startTime)
+            val endTime = dateFormat.parse(reservation.endTime)
+            val diffInMillisec = endTime.time - startTime.time
+            val diffInHours = diffInMillisec / (60 * 60 * 1000)
 
-            //val amount = (reservation.endTime.time - reservation.startTime.time) * 1
+            val amount = diffInHours * 1.25
+
 
             view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
-           // view.findViewById<TextView>(R.id.amount).text = amount.toString()
+            view.findViewById<TextView>(R.id.amount).text = amount.toString()
 
 
 
