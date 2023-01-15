@@ -10,6 +10,7 @@ import com.auth0.jwt.JWT
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import pt.ipca.pa.Park.StatsActivity
+import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import java.io.IOException
@@ -73,7 +74,7 @@ fun login(email: String, password: String, context: Context) {
                     }
 
                 }
-                val intent = Intent(context, StatsActivity::class.java)
+                val intent = Intent(context, ListPaymentActivity::class.java)
                 intent.putExtra(TOKEN, User(token, userID))
                 //  val intent = Intent(context, ListPaymentActivity::class.java)
 

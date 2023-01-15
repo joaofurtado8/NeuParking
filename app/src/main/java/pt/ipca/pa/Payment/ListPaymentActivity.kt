@@ -13,57 +13,40 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import pt.ipca.pa.Park.Park
-import pt.ipca.pa.Park.ParkService
-import pt.ipca.pa.Park.StatsActivity
 import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.Reservation
-import pt.ipca.pa.Revervation.ReserveService
+import pt.ipca.pa.Revervation.ReservationView
 import pt.ipca.pa.SQLite.DataBaseHandler
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import pt.ipca.pa.controller.ReservationController
+import pt.ipca.pa.data.User
+import pt.ipca.pa.model.ReservationModel
+import pt.ipca.pa.utils.ConstantsUtils
+import retrofit2.Response
 
-class ListPaymentActivity : AppCompatActivity() {
+class ListPaymentActivity :ReservationView, AppCompatActivity() {
+
+    lateinit var paymentsList: ListView
+    private val viewModel = ReservationModel()
+    private val controller = ReservationController(viewModel)
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        lateinit var paymentsList : ListView
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_payment)
 
-//        paymentsList = findViewById<ListView>(R.id.payments_list)
+       paymentsList = findViewById<ListView>(R.id.list_view)
 
 
-        val token = intent.getStringExtra("TOKEN")
+        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
 
-        val httpClient = OkHttpClient.Builder()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://smart-api.onrender.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-
-        val reserveService = retrofit.create(ReserveService::class.java)
-
+        controller.bind(this@ListPaymentActivity)
         GlobalScope.launch {
-            val response = reserveService.getPaymentsByUser(token = "Bearer $token")
-            if (response.isSuccessful) {
-                println("Reserves received")
-                response.body()?.let { reserve ->
-                    withContext(Dispatchers.Main) {
-                        paymentsList.adapter = ListPaymentActivity.ListPaymentAdapter(reserve)
-                        for (res in reserve) {
-                            println("Reservas: $res")
-                        }
-
-
-                    }
-                }
-            }
+            controller.getReservationsByUser(user.token)
         }
+
     }
 
-    class ListPaymentAdapter(private val reservations: List<Reservation>) : BaseAdapter() {
+    class ListPaymentAdapter(private val reservations: List<Reservation>,var reservationView: ReservationView) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view: View = convertView ?: LayoutInflater.from(parent?.context)
                 .inflate(R.layout.reservation_item, parent, false)
@@ -71,10 +54,10 @@ class ListPaymentActivity : AppCompatActivity() {
 
             reservation.endTime
 
-            val amount = (reservation.endTime.time - reservation.startTime.time) * 1
+            //val amount = (reservation.endTime.time - reservation.startTime.time) * 1
 
             view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
-            view.findViewById<TextView>(R.id.amount).text = amount.toString()
+           // view.findViewById<TextView>(R.id.amount).text = amount.toString()
 
 
 
@@ -87,6 +70,53 @@ class ListPaymentActivity : AppCompatActivity() {
 
         override fun getCount() = reservations.size
     }
+
+
+    override fun onAllReservationsSuccess(response: Response<List<Reservation>>) {
+        println("Reservations received")
+        response.body()?.let { reservations ->
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    paymentsList.adapter = ListPaymentAdapter(reservations, this@ListPaymentActivity)
+                    val db = DataBaseHandler(this@ListPaymentActivity)
+//                    for (park in parks) {
+//                        db.addPark(park)
+//                        println("park added: $park.name")
+//                    }
+//
+//
+//                    val dbt: List<Park> = db.getParksList();
+//                    for (park in dbt) {
+//                        db.addPark(park)
+//                        println("lindo: $park.name")
+//                    }
+                }
+            }
+
+        }
+
+    }
+
+
+
+    override fun onAllReservationsError(error: String) {
+        println("onAllReservationsError $error")
+       // Toast.makeText(this@ListPaymentActivity, error, Toast.LENGTH_LONG).show()
+
+    }
+
+    override fun onReservationClick(reservation: Reservation) {
+
+       // Toast.makeText(this@ListPaymentActivity, reservation.slotId, Toast.LENGTH_SHORT).show()
+    }
+
+
+
+
+
+
+
+
 
 }
 

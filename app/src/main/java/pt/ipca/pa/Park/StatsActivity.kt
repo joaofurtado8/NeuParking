@@ -35,6 +35,44 @@ class StatsActivity : StatsView, PrivateActivity() {
         }
     }
 
+
+
+    override fun onAllParksSuccess(response: Response<List<Park>>) {
+        println("Parks received")
+        response.body()?.let { parks ->
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    listView.adapter = ParksAdapter(parks,this@StatsActivity)
+                    val db = DataBaseHandler(this@StatsActivity)
+//                    for (park in parks) {
+//                        db.addPark(park)
+//                        println("park added: $park.name")
+//                    }
+//
+//
+//                    val dbt: List<Park> = db.getParksList();
+//                    for (park in dbt) {
+//                        db.addPark(park)
+//                        println("lindo: $park.name")
+//                    }
+                }
+            }
+
+        }
+
+    }
+
+    override fun onAllParksError(error: String) {
+
+        Toast.makeText(this@StatsActivity, error, Toast.LENGTH_LONG).show()
+
+    }
+
+    override fun onParkClick(park: Park) {
+        Toast.makeText(this@StatsActivity, park.name, Toast.LENGTH_SHORT).show()
+    }
+
+
     class ParksAdapter(private val parks: List<Park>, var statsView: StatsView) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view: View = convertView ?: LayoutInflater.from(parent?.context)
@@ -56,40 +94,5 @@ class StatsActivity : StatsView, PrivateActivity() {
         override fun getCount() = parks.size
 
 
-    }
-
-    override fun onAllParksSuccess(response: Response<List<Park>>) {
-        println("Parks received")
-        response.body()?.let { parks ->
-            GlobalScope.launch {
-                withContext(Dispatchers.Main) {
-                    listView.adapter = ParksAdapter(parks,this@StatsActivity)
-                    val db = DataBaseHandler(this@StatsActivity)
-                    for (park in parks) {
-                        db.addPark(park)
-                        println("park added: $park.name")
-                    }
-
-
-                    val dbt: List<Park> = db.getParksList();
-                    for (park in dbt) {
-                        db.addPark(park)
-                        println("lindo: $park.name")
-                    }
-                }
-            }
-
-        }
-
-    }
-
-    override fun onAllParksError(error: String) {
-
-        Toast.makeText(this@StatsActivity, error, Toast.LENGTH_LONG).show()
-
-    }
-
-    override fun onParkClick(park: Park) {
-        Toast.makeText(this@StatsActivity, park.name, Toast.LENGTH_SHORT).show()
     }
 }

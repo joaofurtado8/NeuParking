@@ -7,9 +7,9 @@ import java.util.*
 data class Reservation (
     var slotId : String,
     val userId : String,
-    val startTime: Date,
-    val endTime: Date,
-    val day: Date
+    val startTime: String,
+    val endTime: String,
+    val day:String
     )
 
 

@@ -6,8 +6,8 @@ import pt.ipca.pa.model.StatsModel
 class StatsController(private val model: StatsModel) {
     private lateinit var view: StatsView
 
-    fun bind(loginView: StatsView) {
-        view = loginView
+    fun bind(statsView: StatsView) {
+        view = statsView
     }
 
     suspend fun getAllParks(id: String?) {

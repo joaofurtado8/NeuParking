@@ -50,9 +50,9 @@ class ReservationActivity : AppCompatActivity() {
         val reservation = Reservation(
             "Ze5cr892j9A9PGXluVtR",
             "63a1caec7bd2350a9d54c515",
-            DateFormat.getDateInstance().parse("2023-01-16T12:00:00Z"),
-            DateFormat.getDateInstance().parse("2023-01-16T18:00:00Z"),
-            DateFormat.getDateInstance().parse("2023-01-16")
+           "2023-01-16T12:00:00Z",
+           "2023-01-16T18:00:00Z",
+            "2023-01-16"
         )
         println(reservation.userId)
         addReservation(reservation, token!!, this@ReservationActivity)
@@ -94,8 +94,10 @@ class ReservationActivity : AppCompatActivity() {
                 }
             })
 
-                    }
-                }
+
+    }
+
+}
 
 
 
