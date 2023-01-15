@@ -1,6 +1,7 @@
 package pt.ipca.pa
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Email
@@ -12,6 +13,9 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
 import com.google.gson.Gson
+import pt.ipca.pa.Slots.SlotActivity
+import pt.ipca.pa.data.User
+import pt.ipca.pa.utils.ConstantsUtils
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -35,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
             val password = editSenha.text.toString()
             val confirmPassword = confirmSenha.text.toString()
 
-            register(plate, email, password, confirmPassword)
+            register(plate, email, password, confirmPassword, this@RegisterActivity)
         }
 
 
@@ -45,7 +49,7 @@ fun Any.toJson(): String = Gson().toJson(this)
 inline fun <reified T> String.fromJson(): T = Gson().fromJson(this, T::class.java)
 
 
-fun register(plate: String, email: String, password: String, confirmpassword: String) {
+fun register(plate: String, email: String, password: String, confirmpassword: String, context: Context) {
     val userData = mapOf(
         "plate" to plate,
         "email" to email,
@@ -73,6 +77,8 @@ fun register(plate: String, email: String, password: String, confirmpassword: St
                 if (responseJson != null) {
                     val responseData = responseJson.fromJson<Map<String, Any>>()
                     val message = responseData["msg"]
+                    val intent = Intent(context, LoginActivity::class.java)
+                    context.startActivity(intent)
                     //Toast.makeText(RegisterActivity@this,"Registration successful: $message",Toast.LENGTH_LONG).show()
                 } else {
                     println("Error parsing response body")
