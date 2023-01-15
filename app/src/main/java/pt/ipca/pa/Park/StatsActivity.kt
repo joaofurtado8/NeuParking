@@ -35,8 +35,6 @@ class StatsActivity : StatsView, PrivateActivity() {
         }
     }
 
-
-
     override fun onAllParksSuccess(response: Response<List<Park>>) {
         println("Parks received")
         response.body()?.let { parks ->
@@ -57,15 +55,11 @@ class StatsActivity : StatsView, PrivateActivity() {
 //                    }
                 }
             }
-
         }
-
     }
 
     override fun onAllParksError(error: String) {
-
         Toast.makeText(this@StatsActivity, error, Toast.LENGTH_LONG).show()
-
     }
 
     override fun onParkClick(park: Park) {

@@ -53,6 +53,7 @@ class SlotActivity : SlotView, AppCompatActivity() {
             val intent = Intent(this@SlotActivity, ReservationActivity::class.java)
             intent.putExtra(ConstantsUtils.TOKEN, user)
             intent.putExtra(ConstantsUtils.SLOT_ID, item.id)
+            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
             this@SlotActivity.startActivity(intent)
             runOnUiThread {
 
