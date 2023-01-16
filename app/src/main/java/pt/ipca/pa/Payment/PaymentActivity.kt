@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.ListView
 import android.widget.TextView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -29,13 +31,15 @@ import java.io.InputStreamReader
 class PaymentActivity : AppCompatActivity() {
 
     lateinit var payment_amount : TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
         val amount = intent.getDoubleExtra(ConstantsUtils.AMOUNT,0.0)
         payment_amount = findViewById<TextView>(R.id.textView3)
-        payment_amount.text = amount.toString()
+        payment_amount.text = amount.toString() +"€"
+
 
 
     }
@@ -81,6 +85,8 @@ class PaymentActivity : AppCompatActivity() {
             })
 
     }
+
+   
 }
 
 

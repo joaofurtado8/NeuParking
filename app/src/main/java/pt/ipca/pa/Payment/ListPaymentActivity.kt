@@ -79,7 +79,7 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
             val amount = String.format("%.2f", diffInHours * 1.25).toDouble()
 
             view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
-            view.findViewById<TextView>(R.id.amount).text = amount.toString()
+            view.findViewById<TextView>(R.id.amount).text = amount.toString()+"€"
             reservation.amount = amount
 
             return view
