@@ -71,7 +71,7 @@ class StatsActivity : StatsView, PrivateActivity() {
                     val dbt: List<Park> = db.getParksList();
                     for(dbt_ in dbt )
                     {
-                        println("teste $dbt_.name")
+                        println("teste $dbt_")
                     }
                 }
             }

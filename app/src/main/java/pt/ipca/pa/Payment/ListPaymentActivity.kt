@@ -20,7 +20,6 @@ import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.Reservation
 import pt.ipca.pa.Revervation.ReservationActivity
 import pt.ipca.pa.Revervation.ReservationView
-import pt.ipca.pa.SQLite.DataBaseHandler
 import pt.ipca.pa.SQLite.DataBaseHandlerReservation
 import pt.ipca.pa.controller.ReservationController
 import pt.ipca.pa.data.User
