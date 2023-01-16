@@ -47,7 +47,7 @@ class ReservationActivity : AppCompatActivity() {
         val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
         val slotId = intent.getStringExtra(ConstantsUtils.SLOT_ID)
         val userId = intent.getStringExtra(ConstantsUtils.USER_ID)
-
+        //ff
         editStartTime = findViewById(R.id.start_et)
         editEndTime = findViewById(R.id.end_et)
         editDay = findViewById(R.id.day_et)
