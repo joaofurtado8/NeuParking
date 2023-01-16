@@ -74,7 +74,7 @@ fun login(email: String, password: String, context: Context) {
                     }
 
                 }
-                val intent = Intent(context, ListPaymentActivity::class.java)
+                val intent = Intent(context, StatsActivity::class.java)
                 intent.putExtra(TOKEN, User(token, userID))
                 //  val intent = Intent(context, ListPaymentActivity::class.java)
 

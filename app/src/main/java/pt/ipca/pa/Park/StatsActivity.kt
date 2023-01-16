@@ -44,17 +44,15 @@ class StatsActivity : StatsView, PrivateActivity() {
                 withContext(Dispatchers.Main) {
                     listView.adapter = ParksAdapter(parks,this@StatsActivity)
                     val db = DataBaseHandler(this@StatsActivity)
-//                    for (park in parks) {
-//                        db.addPark(park)
-//                        println("park added: $park.name")
-//                    }
-//
-//
-//                    val dbt: List<Park> = db.getParksList();
-//                    for (park in dbt) {
-//                        db.addPark(park)
-//                        println("lindo: $park.name")
-//                    }
+                    for (park in parks) {
+                        db.addPark(park)
+                    }
+                    val dbt: List<Park> = db.getParksList();
+                    for(dbt_ in dbt )
+                    {
+                        println("teste $dbt_.name")
+                    }
+
                 }
             }
 

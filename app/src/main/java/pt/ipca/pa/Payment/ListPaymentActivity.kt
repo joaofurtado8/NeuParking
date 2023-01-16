@@ -17,6 +17,7 @@ import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.Reservation
 import pt.ipca.pa.Revervation.ReservationView
 import pt.ipca.pa.SQLite.DataBaseHandler
+import pt.ipca.pa.SQLite.DataBaseHandlerReservation
 import pt.ipca.pa.controller.ReservationController
 import pt.ipca.pa.data.User
 import pt.ipca.pa.model.ReservationModel
@@ -84,18 +85,16 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     paymentsList.adapter = ListPaymentAdapter(reservations, this@ListPaymentActivity)
-                    val db = DataBaseHandler(this@ListPaymentActivity)
-//                    for (park in parks) {
-//                        db.addPark(park)
-//                        println("park added: $park.name")
-//                    }
-//
-//
-//                    val dbt: List<Park> = db.getParksList();
-//                    for (park in dbt) {
-//                        db.addPark(park)
-//                        println("lindo: $park.name")
-//                    }
+                    val db = DataBaseHandlerReservation(this@ListPaymentActivity)
+
+                    for (reservation in reservations) {
+                        db.addReservation(reservation)
+                    }
+                    val dbt: List<Reservation> = db.getReservationList()
+                    for (res in dbt) {
+                        println("lindo: $res")
+                    }
+
                 }
             }
 

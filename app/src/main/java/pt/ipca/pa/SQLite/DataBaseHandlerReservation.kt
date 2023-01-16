@@ -9,12 +9,12 @@ import androidx.core.content.contentValuesOf
 import pt.ipca.pa.Park.Park
 import pt.ipca.pa.Revervation.Reservation
 import java.util.jar.Attributes
-/**
+
 class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VERSION) {
 
 //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
-var CREATE_TABLE="CREATE TABLE $TABLE_NAME($SLOT_ID INTEGER PRIMARY KEY,$START_TIME DATA,$END_TIME DATA,$DAY TEXT);"
+var CREATE_TABLE="CREATE TABLE $TABLE_NAME($SLOT_ID INTEGER PRIMARY KEY,$START_TIME TEXT,$END_TIME TEXT,$DAY TEXT);"
         p0?.execSQL(CREATE_TABLE)
     }
 
@@ -24,52 +24,68 @@ val DROP_TABLE="DROP TABLE IF EXISTS $TABLE_NAME;"
         onCreate(p0)
     }
 
-    //adicionar park
-fun addReservation(reservation:Reservation)
-{
-    val p0=writableDatabase
-    val values= ContentValues().apply{
-        put(START_TIME,reservation.startTime)
-        put(END_TIME,reservation.endTime)
-        put(DAY,reservation.day)
-
+    fun addReservation(reservation:Reservation){
+        try {
+            val p0=writableDatabase
+            val selectquery="SELECT * FROM $TABLE_NAME WHERE $SLOT_ID = '${reservation.slotId}';"
+            var cursor =p0.rawQuery(selectquery,null)
+            if(cursor.count <= 0) {
+                val values= ContentValues().apply{
+                    put(SLOT_ID, reservation.slotId)
+                    put(START_TIME, reservation.startTime)
+                    put(END_TIME, reservation.endTime)
+                    put(DAY, reservation.day)
+                }
+                p0.insert(TABLE_NAME,null,values)
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            println("$e")
+        }
     }
-    p0.insert(TABLE_NAME,null,values)
-}
+
 
 
 //DEVOLVE VALORES POR PESQUISA
-    fun getReservation(slot_id:String):Reservation
-    {
+fun getReservation(slot_id:String):Reservation? {
+    try {
         val p0=readableDatabase
         val selectquery="SELECT * FROM $TABLE_NAME WHERE $SLOT_ID = $slot_id;"
         var mouse =p0.rawQuery(selectquery,null)
         mouse?.moveToFirst()
-         val reservation=ppReservation(mouse)
+        val reservation=ppReservation(mouse)
         mouse.close()
         return reservation
+    } catch (e: Exception) {
+        println("$e")
+        return null
     }
-
+}
 
     fun getReservationList():ArrayList<Reservation>{
         var reservationList=ArrayList<Reservation>()
-        val p0 =readableDatabase
-        val selectQuery="SELECT * fROM $TABLE_NAME"
-        val mouse =p0.rawQuery(selectQuery,null)
-        if(mouse!=null)
-            if(mouse.moveToFirst()){
-                do{
-                val reservation=ppReservation(mouse)
-                    reservationList.add(reservation)
-                }while (mouse.moveToNext())
-            }
-        mouse.close()
+        try {
+            val p0 =readableDatabase
+            val selectQuery="SELECT * FROM $TABLE_NAME"
+            val mouse =p0.rawQuery(selectQuery,null)
+            if(mouse!=null)
+                if(mouse.moveToFirst()){
+                    do{
+                        val reservation=ppReservation(mouse)
+                        reservationList.add(reservation)
+                    }while (mouse.moveToNext())
+                }
+            mouse.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         return reservationList
     }
 
 
+
     fun ppReservation(mouse:Cursor):Reservation{
-        var reservation=Reservation("","")
+        var reservation=Reservation("","","","","")
         reservation.slotId=mouse.getString(mouse.getColumnIndexOrThrow(SLOT_ID))
         return reservation
     }
@@ -86,4 +102,4 @@ fun addReservation(reservation:Reservation)
         private val END_TIME="End_Time"
         private val DAY="Day"
     }
-}*/
+}
