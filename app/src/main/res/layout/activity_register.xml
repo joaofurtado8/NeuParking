@@ -78,6 +78,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:onClick="perform_action"
+            android:backgroundTint="#FFA500"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             />
 
         <Button
@@ -89,6 +92,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:onClick="perform_action"
+            android:backgroundTint="#FFA500"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

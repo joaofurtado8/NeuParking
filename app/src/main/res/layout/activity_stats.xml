@@ -28,7 +28,10 @@
                 android:layout_margin="4dp"
                 android:gravity="center"
                 android:id="@+id/slot_page"
-                android:text="@string/reservation_page" />
+                android:text="@string/reservation_page"
+                android:backgroundTint="#FFA500"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -36,7 +39,10 @@
                 android:layout_margin="4dp"
                 android:id="@+id/payment_page"
                 android:gravity="center"
-                android:text="@string/payment_page" />
+                android:text="@string/payment_page"
+                android:backgroundTint="#FFA500"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

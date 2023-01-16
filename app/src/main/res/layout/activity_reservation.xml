@@ -6,40 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".Revervation.ReservationActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_time_label"
+        android:id="@+id/start_time_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        />
+
+
     <EditText
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/reservation_time"
         android:id="@+id/start_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/start_time_label"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_time_label"
+        android:id="@+id/end_time_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/start_et"
+        android:layout_marginTop="20dp"
+        />
+
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/reservation_time"
         android:id="@+id/end_et"
-        app:layout_constraintTop_toBottomOf="@id/start_et"
+        app:layout_constraintTop_toBottomOf="@+id/end_time_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/day_label"
+        android:id="@+id/day_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/end_et"
+        android:layout_marginTop="20dp"
+        />
+
+
     <EditText
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/reservation_day"
         android:id="@+id/day_et"
-        app:layout_constraintTop_toBottomOf="@id/end_et"
+        app:layout_constraintTop_toBottomOf="@+id/day_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:layout_width="200dp"
         android:layout_height="80dp"
-        android:hint="@string/reservation_button"
+        android:text="@string/reservation_button"
         android:id="@+id/reservation_bt"
         app:layout_constraintTop_toBottomOf="@+id/day_et"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +88,5 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

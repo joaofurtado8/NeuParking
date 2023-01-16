@@ -12,5 +12,8 @@
     <string name="reservation_button">Make Reservation</string>
     <string name="reservation_page">Reservations</string>
     <string name="payment_page">Payments</string>
+    <string name="start_time_label">Start Time</string>
+    <string name="end_time_label">End Time</string>
+    <string name="day_label">Day</string>
 
 </resources>
