@@ -1,6 +1,8 @@
 package pt.ipca.pa.Park
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +37,15 @@ class StatsActivity : StatsView, PrivateActivity() {
         setContentView(R.layout.activity_stats)
         listView = findViewById<ListView>(R.id.list_view)
         val user:User = intent.getSerializableExtra(TOKEN) as User
+
+
+        if (!isConnected(this@StatsActivity)) {
+            val db = DataBaseHandlerPark(this@StatsActivity)
+            val parks = db.getParksList()
+            listView.adapter = ParksAdapter(parks, this@StatsActivity)
+            return
+        }
+
         btn_slot_page = findViewById(R.id.slot_page)
         btn_payment_page = findViewById(R.id.payment_page)
 
@@ -107,5 +118,12 @@ class StatsActivity : StatsView, PrivateActivity() {
         override fun getCount() = parks.size
 
 
+    }
+
+
+    fun isConnected(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
     }
 }
