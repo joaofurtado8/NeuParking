@@ -14,24 +14,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import pt.ipca.pa.Park.Park
 
 import pt.ipca.pa.Park.Slot
-import pt.ipca.pa.Park.StatsActivity
-import pt.ipca.pa.Park.StatsView
 import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.ReservationActivity
-import pt.ipca.pa.SQLite.DataBaseHandler
 import pt.ipca.pa.Slot.SlotView
 import pt.ipca.pa.controller.SlotController
-import pt.ipca.pa.controller.StatsController
 import pt.ipca.pa.data.User
 import pt.ipca.pa.model.SlotModel
-import pt.ipca.pa.model.StatsModel
 import pt.ipca.pa.utils.ConstantsUtils
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SlotActivity : SlotView, AppCompatActivity() {
     lateinit var listView: ListView

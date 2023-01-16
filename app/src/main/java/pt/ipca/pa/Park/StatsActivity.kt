@@ -14,8 +14,7 @@ import kotlinx.coroutines.*
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
 import pt.ipca.pa.R
-import pt.ipca.pa.Revervation.ReservationActivity
-import pt.ipca.pa.SQLite.DataBaseHandler
+import pt.ipca.pa.SQLite.DataBaseHandlerPark
 import pt.ipca.pa.Slots.SlotActivity
 import pt.ipca.pa.controller.StatsController
 import pt.ipca.pa.data.User
@@ -65,7 +64,7 @@ class StatsActivity : StatsView, PrivateActivity() {
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     listView.adapter = ParksAdapter(parks,this@StatsActivity)
-                    val db = DataBaseHandler(this@StatsActivity)
+                    val db = DataBaseHandlerPark(this@StatsActivity)
                     for (park in parks) {
                         db.addPark(park)
                     }

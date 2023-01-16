@@ -5,11 +5,9 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import androidx.core.content.contentValuesOf
 import pt.ipca.pa.Park.Park
-import java.util.jar.Attributes
 
-class DataBaseHandler(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VERSION) {
+class DataBaseHandlerPark(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VERSION) {
 
     //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
