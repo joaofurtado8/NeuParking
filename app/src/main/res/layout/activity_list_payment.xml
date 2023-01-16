@@ -28,7 +28,6 @@
         android:layout_marginTop="50dp"
         />
 
-
     <ListView
         android:background="#424242"
         android:id="@+id/list_view"

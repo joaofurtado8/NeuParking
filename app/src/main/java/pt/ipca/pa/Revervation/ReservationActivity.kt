@@ -47,14 +47,29 @@ class ReservationActivity : AppCompatActivity() {
         val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
         val slotId = intent.getStringExtra(ConstantsUtils.SLOT_ID)
         val userId = intent.getStringExtra(ConstantsUtils.USER_ID)
-        //ff
+
         editStartTime = findViewById(R.id.start_et)
         editEndTime = findViewById(R.id.end_et)
         editDay = findViewById(R.id.day_et)
         reservationBtn = findViewById(R.id.reservation_bt)
 
         reservationBtn.setOnClickListener {
-
+            if (editStartTime.text.toString().isEmpty() || editEndTime.text.toString().isEmpty() || editDay.text.toString().isEmpty()){
+                Toast.makeText(this, "Please fill in all fields!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (!editStartTime.text.toString().matches(Regex("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"))){
+                Toast.makeText(this, "Invalid start time format!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (!editEndTime.text.toString().matches(Regex("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"))){
+                Toast.makeText(this, "Invalid end time format!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (!editDay.text.toString().matches(Regex("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/(19|20)[0-9][0-9]$"))){
+                Toast.makeText(this, "Invalid day format!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val reservation = Reservation(
                 slotId.toString(),
                 userId.toString(),
