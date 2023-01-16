@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.AttributeSet
+import android.util.Patterns
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import okhttp3.*
@@ -17,12 +19,26 @@ import pt.ipca.pa.Slots.SlotActivity
 import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils
 
+private fun isPlateValid(plate: String): Boolean {
+    val pattern = Regex("^[A-Za-z\\d]{2}-[A-Za-z\\d]{2}-[A-Za-z\\d]{2}$")
+    return pattern.matches(plate)
+}
+
+private fun isEmailValid(email: String): Boolean {
+    val pattern = Patterns.EMAIL_ADDRESS
+    return pattern.matcher(email).matches()
+}
+
+private fun isFieldEmpty(text: String): Boolean {
+    return text.trim().isEmpty()
+}
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var  editPlate: EditText
     lateinit var editEmail: EditText
     lateinit var editSenha : EditText
     lateinit var confirmSenha: EditText
+    lateinit var btn_login: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +48,7 @@ class RegisterActivity : AppCompatActivity() {
         editEmail= findViewById(R.id.main_email_et)
         editSenha= findViewById(R.id.password)
         confirmSenha= findViewById(R.id.confirm_password)
+        btn_login = findViewById(R.id.login)
 
         findViewById<View>(R.id.register).setOnClickListener {
             val plate = editPlate.text.toString()
@@ -39,7 +56,24 @@ class RegisterActivity : AppCompatActivity() {
             val password = editSenha.text.toString()
             val confirmPassword = confirmSenha.text.toString()
 
-            register(plate, email, password, confirmPassword, this@RegisterActivity)
+            if (isFieldEmpty(plate) || isFieldEmpty(email) || isFieldEmpty(password) || isFieldEmpty(confirmPassword)) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            } else if (!isPlateValid(plate)) {
+                Toast.makeText(this, "Invalid license plate format, must be like '00-00-00'", Toast.LENGTH_SHORT).show()
+            } else if (!isEmailValid(email)) {
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show()
+            } else if (password.length < 6) {
+                Toast.makeText(this, "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show()
+            } else if (password != confirmPassword) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            } else {
+                register(plate, email, password, confirmPassword, this@RegisterActivity)
+            }
+        }
+        btn_login.setOnClickListener {
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+
+            this@RegisterActivity.startActivity(intent)
         }
 
 

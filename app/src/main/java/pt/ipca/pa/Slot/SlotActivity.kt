@@ -49,24 +49,21 @@ class SlotActivity : SlotView, AppCompatActivity() {
         }
         listView.setOnItemClickListener { parent, view, position, id ->
             val item = parent.getItemAtPosition(position) as Slot
-            println(item.id)
-            val intent = Intent(this@SlotActivity, ReservationActivity::class.java)
-            intent.putExtra(ConstantsUtils.TOKEN, user)
-            intent.putExtra(ConstantsUtils.SLOT_ID, item.id)
-            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
-            this@SlotActivity.startActivity(intent)
-            runOnUiThread {
 
-                //  val intent = Intent(context, ListPaymentActivity::class.java)
+            if (item.ocupied.toLowerCase() == "false") {
+                val intent = Intent(this@SlotActivity, ReservationActivity::class.java)
+                intent.putExtra(ConstantsUtils.TOKEN, user)
+                intent.putExtra(ConstantsUtils.SLOT_ID, item.id)
+                intent.putExtra(ConstantsUtils.USER_ID, user.userID)
 
                 this@SlotActivity.startActivity(intent)
-                Toast.makeText(
-                    this@SlotActivity,
-                    "You clicked on ${item.id}",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+                Toast.makeText(this@SlotActivity, "You clicked on ${item.id}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@SlotActivity, "Slot is occupied", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     override fun onAllSlotsSuccess(response: Response<List<Slot>>) {
