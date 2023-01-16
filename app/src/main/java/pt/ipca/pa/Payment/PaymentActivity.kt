@@ -2,23 +2,18 @@ package pt.ipca.pa.Payment
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.ListView
+import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.google.gson.stream.JsonReader
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
-import pt.ipca.pa.Park.StatsActivity
 import pt.ipca.pa.R
-import pt.ipca.pa.Revervation.Reservation
-import pt.ipca.pa.Revervation.ReservationActivity
-import pt.ipca.pa.Revervation.ReserveService
 import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils
 import retrofit2.Call
@@ -30,18 +25,23 @@ import java.io.InputStreamReader
 
 class PaymentActivity : AppCompatActivity() {
 
-    lateinit var payment_amount : TextView
+    lateinit var paymentAmount : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
         val amount = intent.getDoubleExtra(ConstantsUtils.AMOUNT,0.0)
-        payment_amount = findViewById<TextView>(R.id.textView3)
-        payment_amount.text = amount.toString() +"€"
+        paymentAmount = findViewById<TextView>(R.id.textView3)
+        paymentAmount.text = amount.toString() +"€"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return true;
     }
 
     fun addPayment(payment: Payment, token: String, context: Context) {

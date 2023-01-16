@@ -2,23 +2,23 @@
 package pt.ipca.pa.Payment
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import pt.ipca.pa.Park.Slot
+import pt.ipca.pa.Adapters.ListPaymentAdapter
 import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.Reservation
-import pt.ipca.pa.Revervation.ReservationActivity
 import pt.ipca.pa.Revervation.ReservationView
 import pt.ipca.pa.SQLite.DataBaseHandlerReservation
 import pt.ipca.pa.controller.ReservationController
@@ -39,6 +39,9 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_payment)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
 
         paymentsList = findViewById<ListView>(R.id.list_view)
@@ -63,34 +66,10 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
         }
     }
 
-    class ListPaymentAdapter(private val reservations: List<Reservation>,var reservationView: ReservationView) : BaseAdapter() {
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view: View = convertView ?: LayoutInflater.from(parent?.context)
-                .inflate(R.layout.reservation_item, parent, false)
-            val reservation = reservations[position]
-
-            val dateFormat = SimpleDateFormat("HH:mm:ss")
-            val startTime = dateFormat.parse(reservation.startTime)
-            val endTime = dateFormat.parse(reservation.endTime)
-            val diffInMillisec = endTime.time - startTime.time
-            val diffInMinutes = diffInMillisec / (60 * 1000) % 60
-            val diffInHours = diffInMillisec / (60 * 60 * 1000) + diffInMinutes / 60.0
-            val decimalFormat = DecimalFormat("#.##")
-            val amount = String.format("%.2f", diffInHours * 1.25).toDouble()
-
-            view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
-            view.findViewById<TextView>(R.id.amount).text = amount.toString()+"€"
-            reservation.amount = amount
-
-            return view
-        }
-        override fun getItem(position: Int) = reservations[position]
-
-        override fun getItemId(position: Int) = position.toLong()
-
-        override fun getCount() = reservations.size
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return true;
     }
-
 
     override fun onAllReservationsSuccess(response: Response<List<Reservation>>) {
         println("Reservations received")

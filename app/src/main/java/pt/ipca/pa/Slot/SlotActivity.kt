@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -34,6 +35,7 @@ class SlotActivity : SlotView, AppCompatActivity() {
         setContentView(R.layout.activity_slot)
         listView = findViewById<ListView>(R.id.list_view)
         val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         controller.bind(this)
         GlobalScope.launch {
@@ -56,6 +58,11 @@ class SlotActivity : SlotView, AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        onBackPressed()
+        return true;
     }
 
     override fun onAllSlotsSuccess(response: Response<List<Slot>>) {

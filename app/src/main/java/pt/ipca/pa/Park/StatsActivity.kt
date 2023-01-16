@@ -5,14 +5,15 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
-import kotlinx.coroutines.*
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
 import pt.ipca.pa.R
@@ -25,6 +26,7 @@ import pt.ipca.pa.utils.ConstantsUtils
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import retrofit2.Response
 
+
 class StatsActivity : StatsView, PrivateActivity() {
     lateinit var listView: ListView
     private val viewModel = StatsModel()
@@ -36,8 +38,9 @@ class StatsActivity : StatsView, PrivateActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
         listView = findViewById<ListView>(R.id.list_view)
-        val user:User = intent.getSerializableExtra(TOKEN) as User
+        val user: User = intent.getSerializableExtra(TOKEN) as User
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (!isConnected(this@StatsActivity)) {
             val db = DataBaseHandlerPark(this@StatsActivity)
@@ -69,19 +72,41 @@ class StatsActivity : StatsView, PrivateActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        addDialogLogout()
+        return true;
+    }
+
+    private fun addDialogLogout() {
+        val builder1: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder1.setMessage("Are you sure?")
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton(
+            "Yes"
+        ) { dialog, id -> onBackPressed() }
+
+        builder1.setNegativeButton(
+            "No"
+        ) { dialog, id -> dialog.cancel() }
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
+
+
     override fun onAllParksSuccess(response: Response<List<Park>>) {
         println("Parks received")
         response.body()?.let { parks ->
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
-                    listView.adapter = ParksAdapter(parks,this@StatsActivity)
+                    listView.adapter = ParksAdapter(parks, this@StatsActivity)
                     val db = DataBaseHandlerPark(this@StatsActivity)
                     for (park in parks) {
                         db.addPark(park)
                     }
                     val dbt: List<Park> = db.getParksList();
-                    for(dbt_ in dbt )
-                    {
+                    for (dbt_ in dbt) {
                         println("teste $dbt_")
                     }
                 }
@@ -104,7 +129,8 @@ class StatsActivity : StatsView, PrivateActivity() {
                 .inflate(R.layout.park_item, parent, false)
             val park = parks[position]
             view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-            view.findViewById<TextView>(R.id.park_free_spots_tv).text = park.availableSpots.toString() + " free spaces"
+            view.findViewById<TextView>(R.id.park_free_spots_tv).text =
+                park.availableSpots.toString() + " free spaces"
             view.setOnClickListener {
                 statsView.onParkClick(park)
             }
@@ -122,7 +148,8 @@ class StatsActivity : StatsView, PrivateActivity() {
 
 
     fun isConnected(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = connectivityManager.activeNetworkInfo
         return activeNetwork != null && activeNetwork.isConnected
     }

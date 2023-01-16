@@ -31,9 +31,14 @@ class ReservationActivity : AppCompatActivity() {
     lateinit var editEndTime: EditText
     lateinit var editDay: EditText
     lateinit var reservationBtn: Button
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
         val slotId = intent.getStringExtra(ConstantsUtils.SLOT_ID)
         val userId = intent.getStringExtra(ConstantsUtils.USER_ID)

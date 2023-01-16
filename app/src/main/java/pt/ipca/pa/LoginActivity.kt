@@ -7,20 +7,19 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.auth0.jwt.JWT
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import pt.ipca.pa.Park.StatsActivity
-import pt.ipca.pa.Payment.ListPaymentActivity
-import pt.ipca.pa.Revervation.Reservation
-import pt.ipca.pa.Revervation.ReservationActivity
-import pt.ipca.pa.Slots.SlotActivity
 import pt.ipca.pa.data.User
-import pt.ipca.pa.utils.ConstantsUtils
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import java.io.IOException
+
 
 private fun isEmailValid(email: String): Boolean {
     val pattern = Patterns.EMAIL_ADDRESS
@@ -35,15 +34,26 @@ class LoginActivity : AppCompatActivity() {
     lateinit var editEmail: EditText
     lateinit var editPassword: EditText
     lateinit var btn_register: Button
+    lateinit var mainView: ConstraintLayout
+    lateinit var loading: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         editEmail = findViewById(R.id.main_email_et)
         editPassword = findViewById(R.id.main_password_opt)
         btn_register = findViewById(R.id.register)
+        mainView = findViewById(R.id.const_main_view)
+        loading = findViewById(R.id.pBar)
+
+        addClickListener()
+
+    }
+
+    /** Add view clicks */
+    private fun addClickListener() {
         findViewById<View>(R.id.login).setOnClickListener {
-            val email = editEmail.text.toString()
-            val password = editPassword.text.toString()
+            val email = editEmail.text.toString().trim()
+            val password = editPassword.text.toString().trim()
 
             if (isFieldEmpty(email) || isFieldEmpty(password)) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -60,63 +70,91 @@ class LoginActivity : AppCompatActivity() {
             this@LoginActivity.startActivity(intent)
         }
     }
-}
 
-fun login(email: String, password: String, context: Context) {
-    val userData = mapOf(
-        "email" to email,
-        "password" to password
-    )
+    private fun showLoading() {
+        runOnUiThread( Runnable() {
 
-    val request = Request.Builder()
-        .url("https://smart-api.onrender.com/login/")
-        .post(
-            RequestBody.create(
-                "application/json; charset=utf-8".toMediaTypeOrNull(),
-                userData.toJson()
-            )
+        mainView.visibility = View.GONE
+        loading.visibility = View.VISIBLE
+        })
+    }
+
+    private fun hideLoading() {
+        runOnUiThread( Runnable() {
+        mainView.visibility = View.VISIBLE
+        loading.visibility = View.GONE
+        })
+    }
+
+
+    fun login(email: String, password: String, context: Context) {
+        showLoading()
+        val userData = mapOf(
+            "email" to email, "password" to password
         )
-        .build()
 
-    val client = OkHttpClient()
-    client.newCall(request).enqueue(object : Callback {
-        override fun onFailure(call: Call, e: IOException) {
-            // handle failure
-            println("Request failed: $e")
-        }
+        val request = Request.Builder().url("https://smart-api.onrender.com/login/").post(
+                RequestBody.create(
+                    "application/json; charset=utf-8".toMediaTypeOrNull(), userData.toJson()
+                )
+            ).build()
 
-        override fun onResponse(call: Call, response: Response) {
-            if (response.isSuccessful) {
-                // handle success
-                val token = response.header("auth-token")
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                // handle failure
+                hideLoading()
+                println("Request failed: $e")
+            }
 
-                val decodedJWT = JWT.decode(token)
+            override fun onResponse(call: Call, response: Response) {
+                hideLoading()
+                if (response.isSuccessful) {
+                    // handle success
+                    val token = response.header("auth-token")
 
-                val subject = decodedJWT.claims.entries
-                var userID:String =""
-                subject.forEach {
+                    val decodedJWT = JWT.decode(token)
 
-                    if (it.key == "__id") {
-                        userID= it.value.toString()
+                    val subject = decodedJWT.claims.entries
+                    var userID: String = ""
+                    subject.forEach {
+
+                        if (it.key == "__id") {
+                            userID = it.value.toString()
+                        }
+
                     }
+                    val intent = Intent(context, StatsActivity::class.java)
+                    intent.putExtra(TOKEN, User(token, userID))
+                    //  val intent = Intent(context, ListPaymentActivity::class.java)
 
-                }
-                val intent = Intent(context, StatsActivity::class.java)
-                intent.putExtra(TOKEN, User(token, userID))
-                //  val intent = Intent(context, ListPaymentActivity::class.java)
-
-                context.startActivity(intent)
-            } else {
-                // handle error
-                val responseJson = response.body?.string()
-                if (responseJson != null) {
-                    val responseData = responseJson.fromJson<Map<String, Any>>()
-                    val message = responseData["msg"]
-                    println("Login failed: $message")
+                    context.startActivity(intent)
                 } else {
-                    println("Error parsing response body")
+                    runOnUiThread( Runnable() {
+                        addErrorDialog()
+                    })
+                    // handle error
+                    val responseJson = response.body?.string()
+                    if (responseJson != null) {
+                        val responseData = responseJson.fromJson<Map<String, Any>>()
+                        val message = responseData["msg"]
+                        println("Login failed: $message")
+                    } else {
+                        println("Error parsing response body")
+                    }
                 }
             }
-        }
-    })
+        })
+    }
+
+    private fun addErrorDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Service error!")
+            .setCancelable(false)
+            .setPositiveButton("OK") { dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
 }
