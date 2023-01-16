@@ -71,11 +71,11 @@ class ReservationActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val reservation = Reservation(
-                slotId.toString(),
-                userId.toString(),
-                editStartTime.text.toString()+":00",
-                editEndTime.text.toString()+":00",
-                editDay.text.toString()
+                slotId= slotId.toString(),
+                userId = userId.toString(),
+                startTime = editStartTime.text.toString()+":00",
+                endTime = editEndTime.text.toString()+":00",
+                day = editDay.text.toString()
             )
             println(userId.toString())
             addReservation(reservation, user.token.toString()!!, this@ReservationActivity)

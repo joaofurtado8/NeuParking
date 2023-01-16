@@ -1,6 +1,7 @@
 
 package pt.ipca.pa.Payment
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +15,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pt.ipca.pa.Park.Slot
 import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.Reservation
+import pt.ipca.pa.Revervation.ReservationActivity
 import pt.ipca.pa.Revervation.ReservationView
 import pt.ipca.pa.SQLite.DataBaseHandler
 import pt.ipca.pa.controller.ReservationController
@@ -36,11 +39,23 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_payment)
+        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
 
         paymentsList = findViewById<ListView>(R.id.list_view)
 
+        paymentsList.setOnItemClickListener { parent, view, position, id ->
+            val item = parent.getItemAtPosition(position) as Reservation
+            val intent = Intent(this@ListPaymentActivity, PaymentActivity::class.java)
+            intent.putExtra(ConstantsUtils.TOKEN, user)
+            intent.putExtra(ConstantsUtils.SLOT_ID, item.id)
+            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
+            intent.putExtra(ConstantsUtils.AMOUNT, item.amount)
 
-        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
+
+            this@ListPaymentActivity.startActivity(intent)
+
+            Toast.makeText(this@ListPaymentActivity, "You clicked on ${item.id}", Toast.LENGTH_SHORT).show()
+        }
 
         controller.bind(this@ListPaymentActivity)
         GlobalScope.launch {
@@ -65,6 +80,7 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
             view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
             view.findViewById<TextView>(R.id.amount).text = amount.toString()
+            reservation.amount = amount
 
             return view
         }
