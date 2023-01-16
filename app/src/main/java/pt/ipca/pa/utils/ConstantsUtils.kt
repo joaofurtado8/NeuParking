@@ -4,5 +4,7 @@ class ConstantsUtils {
     companion object{
         const val TOKEN:String="TOKEN"
         const val USER_ID:String="user id"
+        const val SLOT_ID:String ="slot id"
+        const val AMOUNT: String = "0.0"
     }
 }

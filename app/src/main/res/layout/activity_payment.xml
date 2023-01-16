@@ -4,8 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF8B13"
+    android:background="#FFFFFF"
     tools:context=".Payment.PaymentActivity">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="120dp"
+        android:gravity="center"
+        android:text="AMOUNT"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/payments_methods_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/payment_title"
@@ -14,31 +43,32 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:text="Payments Process"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:elevation="4dp"
         android:text="Payments Methods"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        android:elevation="4dp"
-        android:layout_marginLeft="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/payments_methods_box"/>
+        app:layout_constraintTop_toTopOf="@+id/payments_methods_box" />
 
 
     <TextView
         android:id="@+id/payments_methods_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="200dp"
         android:background="#424242"
         android:paddingHorizontal="190dp"
-        android:paddingVertical="100dp"
+        android:paddingVertical="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -50,7 +80,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-       ></ListView>
+        app:layout_constraintRight_toRightOf="parent"></ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

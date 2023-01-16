@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-   >
+    >
     <TextView
         android:id="@+id/payment_title"
         android:layout_width="wrap_content"
@@ -28,7 +28,6 @@
         android:layout_marginTop="50dp"
         />
 
-
     <ListView
         android:background="#424242"
         android:id="@+id/list_view"
@@ -39,45 +38,45 @@
         android:layout_below="@+id/payments_pending_text"/>
 
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="1"-->
-<!--        android:orientation="vertical"-->
-<!--        android:gravity="center">-->
-<!--        <TextView-->
-<!--            android:id="@+id/payment_title"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="20dp"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:text="Payments"-->
-<!--            android:textColor="#FFFFFF"-->
-<!--            android:textSize="30sp"-->
-<!--            />-->
-<!--        <TextView-->
-<!--            android:id="@+id/payments_pending_text"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Payments Pending"-->
-<!--            android:textColor="#FFFFFF"-->
-<!--            android:textSize="24sp"-->
-<!--            android:elevation="4dp"-->
-<!--            android:layout_marginTop="110dp"-->
-<!--            android:layout_marginLeft="20dp"-->
-<!--            />-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:gravity="center">-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/payment_title"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginLeft="20dp"-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            android:text="Payments"-->
+    <!--            android:textColor="#FFFFFF"-->
+    <!--            android:textSize="30sp"-->
+    <!--            />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/payments_pending_text"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Payments Pending"-->
+    <!--            android:textColor="#FFFFFF"-->
+    <!--            android:textSize="24sp"-->
+    <!--            android:elevation="4dp"-->
+    <!--            android:layout_marginTop="110dp"-->
+    <!--            android:layout_marginLeft="20dp"-->
+    <!--            />-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/payments_pending_box"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="100dp"-->
-<!--            android:background="#424242"-->
-<!--            android:paddingHorizontal="190dp"-->
-<!--            android:paddingVertical="290dp"-->
-<!--            />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/payments_pending_box"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="100dp"-->
+    <!--            android:background="#424242"-->
+    <!--            android:paddingHorizontal="190dp"-->
+    <!--            android:paddingVertical="290dp"-->
+    <!--            />-->
 
-<!--        </LinearLayout>-->
+    <!--        </LinearLayout>-->
 
 
-    </LinearLayout>
+</LinearLayout>

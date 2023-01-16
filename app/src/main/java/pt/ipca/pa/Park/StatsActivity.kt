@@ -1,20 +1,26 @@
 package pt.ipca.pa.Park
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.coroutines.*
+import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
 import pt.ipca.pa.R
+import pt.ipca.pa.Revervation.ReservationActivity
 import pt.ipca.pa.SQLite.DataBaseHandler
+import pt.ipca.pa.Slots.SlotActivity
 import pt.ipca.pa.controller.StatsController
 import pt.ipca.pa.data.User
 import pt.ipca.pa.model.StatsModel
+import pt.ipca.pa.utils.ConstantsUtils
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import retrofit2.Response
 
@@ -22,20 +28,36 @@ class StatsActivity : StatsView, PrivateActivity() {
     lateinit var listView: ListView
     private val viewModel = StatsModel()
     private val controller = StatsController(viewModel)
+    lateinit var btn_slot_page: Button
+    lateinit var btn_payment_page: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
         listView = findViewById<ListView>(R.id.list_view)
         val user:User = intent.getSerializableExtra(TOKEN) as User
+        btn_slot_page = findViewById(R.id.slot_page)
+        btn_payment_page = findViewById(R.id.payment_page)
+
+        btn_slot_page.setOnClickListener {
+            val intent = Intent(this@StatsActivity, SlotActivity::class.java)
+            intent.putExtra(ConstantsUtils.TOKEN, user)
+            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
+            this@StatsActivity.startActivity(intent)
+        }
+
+        btn_payment_page.setOnClickListener {
+            val intent = Intent(this@StatsActivity, ListPaymentActivity::class.java)
+            intent.putExtra(ConstantsUtils.TOKEN, user)
+            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
+            this@StatsActivity.startActivity(intent)
+        }
 
         controller.bind(this)
         GlobalScope.launch {
             controller.getAllParks(user.token)
         }
     }
-
-
 
     override fun onAllParksSuccess(response: Response<List<Park>>) {
         println("Parks received")
@@ -55,15 +77,11 @@ class StatsActivity : StatsView, PrivateActivity() {
 
                 }
             }
-
         }
-
     }
 
     override fun onAllParksError(error: String) {
-
         Toast.makeText(this@StatsActivity, error, Toast.LENGTH_LONG).show()
-
     }
 
     override fun onParkClick(park: Park) {
@@ -77,8 +95,7 @@ class StatsActivity : StatsView, PrivateActivity() {
                 .inflate(R.layout.park_item, parent, false)
             val park = parks[position]
             view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-            view.findViewById<TextView>(R.id.park_free_spots_tv).text =
-                park.availableSpots.toString()
+            view.findViewById<TextView>(R.id.park_free_spots_tv).text = park.availableSpots.toString() + " free spaces"
             view.setOnClickListener {
                 statsView.onParkClick(park)
             }
