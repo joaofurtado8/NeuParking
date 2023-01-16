@@ -7,23 +7,19 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import pt.ipca.pa.Park.Park
 
-class DataBaseHandlerPark(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VERSION) {
-
+class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, DB_VERSION) {
     //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
-        var CREATE_TABLE="CREATE TABLE $TABLE_NAME($ID INTEGER PRIMARY KEY, $NAME TEXT, $LOCATION TEXT, $DESCRIPTION TEXT, $AVALAIBLESPOTS NUMBER);"
+        var CREATE_TABLE = "CREATE TABLE $TABLE_NAME($ID INTEGER PRIMARY KEY,$NAME TEXT, $LOCATION TEXT, $DESCRIPTION TEXT, $AVALAIBLESPOTS INTEGER);"
         p0?.execSQL(CREATE_TABLE)
     }
 
-
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-        val DROP_TABLE="DROP TABLE IF EXISTS $TABLE_NAME;"
+        val DROP_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME;"
         p0?.execSQL(DROP_TABLE)
         onCreate(p0)
     }
 
-    //adicionar park
-    //adicionar park
     fun addPark(park: Park) {
         try {
             val p0 = readableDatabase
@@ -35,7 +31,7 @@ class DataBaseHandlerPark(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VE
                     put(NAME, park.name)
                     put(LOCATION, park.location)
                     put(DESCRIPTION, park.description)
-                    put(AVALAIBLESPOTS, "$park.availableSpots")
+                    put(AVALAIBLESPOTS, park.availableSpots.toInt())
                 }
                 p1.insert(TABLE_NAME, null, values)
             }
@@ -44,6 +40,7 @@ class DataBaseHandlerPark(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VE
             e.printStackTrace()
         }
     }
+
 
     //DEVOLVE VALORES POR PESQUISA
     fun getPark(name:String):Park? {
