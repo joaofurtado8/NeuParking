@@ -9,7 +9,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/backgound_app" />
+        android:src="@drawable/backgound_app"
+        android:scaleType="fitXY"/>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -49,7 +50,8 @@
             android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/main_tv" />
+            app:layout_constraintTop_toBottomOf="@id/main_tv"
+            android:background="@color/white"/>
         />
 
 
@@ -62,7 +64,9 @@
             android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_email_et" />
+            app:layout_constraintTop_toBottomOf="@+id/main_email_et"
+            android:background="@color/white"/>
+        />
         />
 
         <Button
