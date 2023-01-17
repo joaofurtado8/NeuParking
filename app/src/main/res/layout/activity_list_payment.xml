@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Payments Pending"
-        android:background="#424242"
+        android:background="#FFA500"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:padding="15dp"
@@ -29,7 +29,7 @@
         />
 
     <ListView
-        android:background="#424242"
+        android:background="#FFA500"
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -53,6 +53,7 @@
             android:hint="@string/main_password"
             android:singleLine="true"
             android:id="@+id/password"
+            android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@id/main_email_et"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -65,6 +66,7 @@
             android:singleLine="true"
             android:hint="@string/main_confirmpassword"
             android:id="@+id/confirm_password"
+            android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@id/password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
