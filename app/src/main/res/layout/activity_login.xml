@@ -46,6 +46,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="50dp"
             android:hint="@string/main_email"
+            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_tv" />
@@ -58,6 +59,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
             android:hint="@string/main_password"
+            android:singleLine="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/main_email_et" />
