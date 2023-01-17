@@ -97,7 +97,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
         private val DB_VERSION=1
         private val DB_NAME="PDM"
         private val SLOT_ID="ID"
-        private val TABLE_NAME="Reservation"
+        private val TABLE_NAME="Reservations"
         private val START_TIME="Star_time"
         private val END_TIME="End_Time"
         private val DAY="Day"

@@ -55,7 +55,9 @@
             android:id="@+id/password"
             app:layout_constraintTop_toBottomOf="@id/main_email_et"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="textPassword"
+            />
         />
 
         <EditText
@@ -67,7 +69,9 @@
             android:id="@+id/confirm_password"
             app:layout_constraintTop_toBottomOf="@id/password"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="textPassword"
+            />
         />
 
 
