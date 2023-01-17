@@ -94,6 +94,7 @@ class PaymentActivity : AppCompatActivity() {
                         val intent = Intent(this@PaymentActivity, ListPaymentActivity::class.java)
                         intent.putExtra("TOKEN", token)
                         startActivity(intent)
+                        //intent
                     }
                 }
 
