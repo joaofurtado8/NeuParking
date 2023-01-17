@@ -5,7 +5,7 @@
     <string name="main_login">Login</string>
     <string name="main_register">Register</string>
     <string name="main_confirmpassword">Confirmar senha</string>
-    <string name="main_welcome">welcome</string>
+    <string name="main_welcome">Welcome</string>
     <string name="main_plate">License Plate</string>
     <string name="reservation_time">00:00</string>
     <string name="reservation_day">dd/mm/yyyy</string>

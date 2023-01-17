@@ -30,4 +30,8 @@ object RetrofitAPI {
         retrofit().create(SlotService::class.java)
     }
 
+    val getReserveService: ReserveService by lazy {
+        retrofit().create(ReserveService::class.java)
+    }
+
 }
