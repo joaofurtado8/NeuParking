@@ -34,7 +34,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var editSenha : EditText
     lateinit var confirmSenha: EditText
     lateinit var btn_login: Button
-
+//ds
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
