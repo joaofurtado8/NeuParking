@@ -82,11 +82,8 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
                     for (reservation in reservations) {
                         db.addReservation(reservation)
                     }
-                    val dbt: List<Reservation> = db.getReservationList()
-                    for (res in dbt) {
-                        println("lindo: $res")
-                    }
-                }
+
+             }
             }
 
         }

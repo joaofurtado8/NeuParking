@@ -99,6 +99,7 @@ class ReservationActivity : AppCompatActivity() {
                         val intent = Intent(this@ReservationActivity, StatsActivity::class.java)
                         intent.putExtra(ConstantsUtils.TOKEN, user)
                         startActivity(intent)
+
                     } else {
                         val errorBody = response.errorBody()
                         val jsonReader = JsonReader(InputStreamReader(errorBody!!.byteStream()))

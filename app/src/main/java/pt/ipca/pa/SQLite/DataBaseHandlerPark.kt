@@ -10,7 +10,7 @@ import pt.ipca.pa.Park.Park
 class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, DB_VERSION) {
     //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
-        var CREATE_TABLE = "CREATE TABLE $TABLE_NAME($ID INTEGER PRIMARY KEY,$NAME TEXT, $LOCATION TEXT, $DESCRIPTION TEXT, $AVALAIBLESPOTS INTEGER);"
+        var CREATE_TABLE = "CREATE TABLE $TABLE_NAME($ID INTEGER ,$NAME TEXT, $LOCATION TEXT, $DESCRIPTION TEXT, $AVALAIBLESPOTS INTEGER);"
         p0?.execSQL(CREATE_TABLE)
     }
 

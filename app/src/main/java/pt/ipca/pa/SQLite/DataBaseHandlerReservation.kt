@@ -14,7 +14,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
 
     //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
-        var CREATE_TABLE="CREATE TABLE $TABLE_NAME($SLOT_ID INTEGER PRIMARY KEY,$START_TIME TEXT,$END_TIME TEXT,$DAY TEXT);"
+        var CREATE_TABLE="CREATE TABLE $TABLE_NAME($ID TEXT ,$SLOT_ID TEXT, $START_TIME TEXT, $END_TIME TEXT, $DAY TEXT);"
         p0?.execSQL(CREATE_TABLE)
     }
 
@@ -27,11 +27,10 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
     fun addReservation(reservation:Reservation){
         try {
             val p0=writableDatabase
-            val selectquery="SELECT * FROM $TABLE_NAME WHERE $SLOT_ID = '${reservation.slotId}';"
+            val selectquery="SELECT * FROM $TABLE_NAME WHERE $ID = '${reservation.id}';"
             var cursor =p0.rawQuery(selectquery,null)
             if(cursor.count <= 0) {
                 val values= ContentValues().apply{
-                    put(SLOT_ID, reservation.slotId)
                     put(START_TIME, reservation.startTime)
                     put(END_TIME, reservation.endTime)
                     put(DAY, reservation.day)
@@ -44,13 +43,10 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
         }
     }
 
-
-
-    //DEVOLVE VALORES POR PESQUISA
-    fun getReservation(slot_id:String):Reservation? {
+    fun getReservation(id:String):Reservation? {
         try {
             val p0=readableDatabase
-            val selectquery="SELECT * FROM $TABLE_NAME WHERE $SLOT_ID = $slot_id;"
+            val selectquery="SELECT * FROM $TABLE_NAME WHERE $ID = $id;"
             var mouse =p0.rawQuery(selectquery,null)
             mouse?.moveToFirst()
             val reservation=ppReservation(mouse)
@@ -61,7 +57,6 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
             return null
         }
     }
-
     fun getReservationList():ArrayList<Reservation>{
         var reservationList=ArrayList<Reservation>()
         try {
@@ -86,17 +81,23 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
 
     fun ppReservation(mouse:Cursor):Reservation{
         var reservation=Reservation("",0.0,"","","","","")
+        reservation.id=mouse.getString(mouse.getColumnIndexOrThrow(ID))
         reservation.slotId=mouse.getString(mouse.getColumnIndexOrThrow(SLOT_ID))
+        reservation.startTime=mouse.getString(mouse.getColumnIndexOrThrow(START_TIME))
+        reservation.endTime=mouse.getString(mouse.getColumnIndexOrThrow(END_TIME))
+        reservation.day=mouse.getString(mouse.getColumnIndexOrThrow(DAY))
         return reservation
     }
-//falta funcoes
-    //ver video
+
+
+
 
 
     companion object{
-        private val DB_VERSION=1
+        private val DB_VERSION=2
         private val DB_NAME="PDM"
-        private val SLOT_ID="ID"
+        private val ID="ID"
+        private val SLOT_ID="Slot_ID"
         private val TABLE_NAME="Reservations"
         private val START_TIME="Star_time"
         private val END_TIME="End_Time"

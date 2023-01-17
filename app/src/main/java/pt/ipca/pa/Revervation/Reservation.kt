@@ -9,9 +9,9 @@ data class Reservation (
     @SerializedName("amount") var amount: Double? = null,
     var slotId : String,
     val userId : String,
-    val startTime: String,
-    val endTime: String,
-    val day:String
+    var startTime: String,
+    var endTime: String,
+    var day:String
     )
 
 
