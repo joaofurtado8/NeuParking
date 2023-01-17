@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pt.ipca.pa.Adapters.ParksAdapter
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
 import pt.ipca.pa.R
@@ -123,28 +124,7 @@ class StatsActivity : StatsView, PrivateActivity() {
     }
 
 
-    class ParksAdapter(private val parks: List<Park>, var statsView: StatsView) : BaseAdapter() {
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view: View = convertView ?: LayoutInflater.from(parent?.context)
-                .inflate(R.layout.park_item, parent, false)
-            val park = parks[position]
-            view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-            view.findViewById<TextView>(R.id.park_free_spots_tv).text =
-                park.availableSpots.toString() + " free spaces"
-            view.setOnClickListener {
-                statsView.onParkClick(park)
-            }
-            return view
-        }
 
-        override fun getItem(position: Int) = parks[position]
-
-        override fun getItemId(position: Int) = position.toLong()
-
-        override fun getCount() = parks.size
-
-
-    }
 
 
     fun isConnected(context: Context): Boolean {
