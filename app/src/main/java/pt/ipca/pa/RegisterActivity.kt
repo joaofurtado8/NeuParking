@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.util.AttributeSet
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
@@ -15,9 +13,6 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
 import com.google.gson.Gson
-import pt.ipca.pa.Slots.SlotActivity
-import pt.ipca.pa.data.User
-import pt.ipca.pa.utils.ConstantsUtils
 
 private fun isPlateValid(plate: String): Boolean {
     val pattern = Regex("^[A-Za-z\\d]{2}-[A-Za-z\\d]{2}-[A-Za-z\\d]{2}$")
