@@ -8,12 +8,16 @@
 
     <ImageView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/backgound_app" />
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/backgound_app" />
+        android:layout_marginTop="40dp"
+        android:src="@drawable/np" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/const_main_view"
