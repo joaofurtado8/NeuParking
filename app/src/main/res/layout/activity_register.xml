@@ -28,6 +28,7 @@
             android:layout_marginTop="50dp"
             android:hint="@string/main_plate"
             android:id="@+id/main_plate_et"
+            android:singleLine="true"
             app:layout_constraintTop_toBottomOf="@id/main_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -39,6 +40,7 @@
             android:layout_marginTop="50dp"
             android:hint="@string/main_email"
             android:id="@+id/main_email_et"
+            android:singleLine="true"
             app:layout_constraintTop_toBottomOf="@id/main_plate_et"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -50,6 +52,7 @@
             android:layout_marginTop="50dp"
             android:hint="@string/main_password"
             android:id="@+id/password"
+            android:singleLine="true"
             app:layout_constraintTop_toBottomOf="@id/main_email_et"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -61,6 +64,7 @@
             android:layout_marginTop="50dp"
             android:hint="@string/main_confirmpassword"
             android:id="@+id/confirm_password"
+            android:singleLine="true"
             app:layout_constraintTop_toBottomOf="@id/password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

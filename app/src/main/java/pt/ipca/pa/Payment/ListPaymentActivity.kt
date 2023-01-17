@@ -50,7 +50,7 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
             val item = parent.getItemAtPosition(position) as Reservation
             val intent = Intent(this@ListPaymentActivity, PaymentActivity::class.java)
             intent.putExtra(ConstantsUtils.TOKEN, user)
-            intent.putExtra(ConstantsUtils.SLOT_ID, item.id)
+            intent.putExtra("RES", item.id)
             intent.putExtra(ConstantsUtils.USER_ID, user.userID)
             intent.putExtra(ConstantsUtils.AMOUNT, item.amount)
 

@@ -41,6 +41,7 @@ class SlotActivity : SlotView, AppCompatActivity() {
         GlobalScope.launch {
             controller.getAllSlots(user.token)
         }
+
         listView.setOnItemClickListener { parent, view, position, id ->
             val item = parent.getItemAtPosition(position) as Slot
 

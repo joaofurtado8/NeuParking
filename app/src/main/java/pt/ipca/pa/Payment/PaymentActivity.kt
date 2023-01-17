@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -14,6 +15,7 @@ import com.google.gson.stream.JsonReader
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
 import pt.ipca.pa.R
+import pt.ipca.pa.Revervation.Reservation
 import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils
 import retrofit2.Call
@@ -22,6 +24,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.InputStreamReader
+import java.util.*
 
 class PaymentActivity : AppCompatActivity() {
 
@@ -31,11 +34,26 @@ class PaymentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
+        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
+        val reservationId = intent.getStringExtra("RES")
+        val userId = intent.getStringExtra(ConstantsUtils.USER_ID)
+        val btn_pay = findViewById<Button>(R.id.btn_pay)
         val amount = intent.getDoubleExtra(ConstantsUtils.AMOUNT,0.0)
         paymentAmount = findViewById<TextView>(R.id.textView3)
         paymentAmount.text = amount.toString() +"€"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val calendar = Calendar.getInstance()
+        val currentDate = calendar.time
+        val payment = Payment(
+            userId = userId.toString(),
+            reservationId = reservationId.toString(),
+            amount = amount.toString(),
+            date = currentDate.toString()
+        )
+        btn_pay.setOnClickListener {
+            addPayment(payment, user.token.toString(), this@PaymentActivity)
+        }
 
     }
 
