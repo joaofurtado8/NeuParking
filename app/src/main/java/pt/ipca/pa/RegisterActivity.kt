@@ -29,11 +29,11 @@ private fun isFieldEmpty(text: String): Boolean {
 }
 
 class RegisterActivity : AppCompatActivity() {
-    lateinit var  editPlate: EditText
-    lateinit var editEmail: EditText
-    lateinit var editSenha : EditText
-    lateinit var confirmSenha: EditText
-    lateinit var btn_login: Button
+    private lateinit var  editPlate: EditText
+    private lateinit var editEmail: EditText
+    private lateinit var editSenha : EditText
+    private lateinit var confirmSenha: EditText
+    private lateinit var btn_login: Button
 //ds
 
     override fun onCreate(savedInstanceState: Bundle?) {
