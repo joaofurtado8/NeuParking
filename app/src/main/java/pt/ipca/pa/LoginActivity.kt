@@ -45,6 +45,19 @@ class LoginActivity : AppCompatActivity() {
         mainView = findViewById(R.id.const_main_view)
         loading = findViewById(R.id.pBar)
 
+        val preferences = getSharedPreferences("user_credentials", MODE_PRIVATE)
+        val email = preferences.getString("email", "")
+        val password = preferences.getString("password", "")
+        if (email != null) {
+            if (password != null) {
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    if (password != null) {
+                        login(email, password, this)
+                    }
+                }
+            }
+        }
+
         addClickListener()
 
     }
@@ -54,6 +67,8 @@ class LoginActivity : AppCompatActivity() {
         findViewById<View>(R.id.login).setOnClickListener {
             val email = editEmail.text.toString().trim()
             val password = editPassword.text.toString().trim()
+
+
 
             if (isFieldEmpty(email) || isFieldEmpty(password)) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -124,20 +139,25 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                     }
+                    val editor = getSharedPreferences("user_credentials", MODE_PRIVATE).edit()
+                    editor.putString("email", email)
+                    editor.putString("password", password)
+                    editor.apply()
                     val intent = Intent(context, StatsActivity::class.java)
                     intent.putExtra(TOKEN, User(token, userID))
                     //  val intent = Intent(context, ListPaymentActivity::class.java)
 
                     context.startActivity(intent)
                 } else {
-                    runOnUiThread( Runnable() {
-                        addErrorDialog()
-                    })
                     // handle error
                     val responseJson = response.body?.string()
                     if (responseJson != null) {
                         val responseData = responseJson.fromJson<Map<String, Any>>()
                         val message = responseData["msg"]
+                        runOnUiThread{
+                            Toast.makeText(context, "Login Failed: $message", Toast.LENGTH_SHORT).show()
+                        }
+
                         println("Login failed: $message")
                     } else {
                         println("Error parsing response body")

@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pt.ipca.pa.LoginActivity
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
 import pt.ipca.pa.R
@@ -84,7 +85,17 @@ class StatsActivity : StatsView, PrivateActivity() {
 
         builder1.setPositiveButton(
             "Yes"
-        ) { dialog, id -> onBackPressed() }
+        ) { dialog, id ->
+            // Clear user's credentials
+            val sharedPref = getSharedPreferences("user_credentials", Context.MODE_PRIVATE)
+            with (sharedPref.edit()) {
+                clear()
+                apply()
+            }
+            // Redirect to login page
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         builder1.setNegativeButton(
             "No"
@@ -93,6 +104,7 @@ class StatsActivity : StatsView, PrivateActivity() {
         val alert11 = builder1.create()
         alert11.show()
     }
+
 
 
     override fun onAllParksSuccess(response: Response<List<Park>>) {

@@ -2,13 +2,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/backgound_app"
+        android:scaleType="fitXY"/>
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ll_buttons" />
-
+        android:layout_above="@id/ll_buttons"
+        android:divider="@null"
+        android:textColor="@color/white"
+        android:dividerHeight="5dp" />
 
     <LinearLayout
         android:id="@+id/ll_buttons"
@@ -24,22 +30,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:backgroundTint="#FFA500"
             android:gravity="center"
             android:text="@string/reservation_page"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:elevation="5dp"
+            android:padding="10dp"
+            android:stateListAnimator="@null"
+            android:transitionName="reservation_button"
+            android:clickable="true"
+            android:focusable="true" />
 
         <Button
             android:id="@+id/payment_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:backgroundTint="#FFA500"
             android:gravity="center"
             android:text="@string/payment_page"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:elevation="5dp"
+            android:padding="10dp"
+            android:stateListAnimator="@null"
+            android:transitionName="payment_button"
+            android:clickable="true"
+            android:focusable="true" />
 
     </LinearLayout>
 </RelativeLayout>

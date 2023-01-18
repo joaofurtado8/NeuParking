@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">PA</string>
     <string name="main_email">Email</string>
-    <string name="main_password">Senha</string>
+    <string name="main_password">Password</string>
     <string name="main_login">Login</string>
     <string name="main_register">Register</string>
-    <string name="main_confirmpassword">Confirmar senha</string>
+    <string name="main_confirmpassword">Confirm Password</string>
     <string name="main_welcome">Welcome</string>
     <string name="main_plate">License Plate</string>
     <string name="reservation_time">00:00</string>
