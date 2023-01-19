@@ -38,9 +38,9 @@ class PaymentActivity : AppCompatActivity() {
         val reservationId = intent.getStringExtra("RES")
         val userId = intent.getStringExtra(ConstantsUtils.USER_ID)
         val btn_pay = findViewById<Button>(R.id.btn_pay)
-        val amount = intent.getDoubleExtra(ConstantsUtils.AMOUNT,0.0)
+        val amount = intent.getStringExtra(ConstantsUtils.AMOUNT)
         paymentAmount = findViewById<TextView>(R.id.textView3)
-        paymentAmount.text = amount.toString() +"€"
+        paymentAmount.text = amount +"€"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val calendar = Calendar.getInstance()

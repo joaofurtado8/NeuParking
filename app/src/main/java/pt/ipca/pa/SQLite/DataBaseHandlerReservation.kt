@@ -80,7 +80,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
 
 
     fun ppReservation(mouse:Cursor):Reservation{
-        var reservation=Reservation("",0.0,"","","","","")
+        var reservation=Reservation("","","","","","","")
         reservation.id=mouse.getString(mouse.getColumnIndexOrThrow(ID))
         reservation.slotId=mouse.getString(mouse.getColumnIndexOrThrow(SLOT_ID))
         reservation.startTime=mouse.getString(mouse.getColumnIndexOrThrow(START_TIME))

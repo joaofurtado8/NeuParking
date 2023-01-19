@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
@@ -31,7 +32,6 @@ class ReservationActivity : AppCompatActivity() {
     lateinit var editEndTime: EditText
     lateinit var editDay: EditText
     lateinit var reservationBtn: Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +73,18 @@ class ReservationActivity : AppCompatActivity() {
                 day = editDay.text.toString()
             )
             println(userId.toString())
-            addReservation(reservation, user.token.toString()!!, this@ReservationActivity)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirm Reservation")
+            builder.setMessage("Are you sure you want to make this reservation?")
+            builder.setPositiveButton("YES") { _, _ ->
+                addReservation(reservation, user.token.toString()!!, this@ReservationActivity)
+
+            }
+            builder.setNegativeButton("NO") { _, _ ->
+
+            }
+            val alertDialog = builder.create()
+            alertDialog.show()
         }
     }
 

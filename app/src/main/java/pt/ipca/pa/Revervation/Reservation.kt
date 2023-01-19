@@ -6,7 +6,7 @@ import java.util.*
 
 data class Reservation (
     @SerializedName("id") var id: String? = null,
-    @SerializedName("amount") var amount: Double? = null,
+    @SerializedName("amount") var amount: String? = null,
     var slotId : String,
     val userId : String,
     var startTime: String,

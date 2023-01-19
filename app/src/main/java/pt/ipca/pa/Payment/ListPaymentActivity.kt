@@ -45,8 +45,10 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
         val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
 
         paymentsList = findViewById<ListView>(R.id.list_view)
+        println("on")
 
         paymentsList.setOnItemClickListener { parent, view, position, id ->
+            println("item")
             val item = parent.getItemAtPosition(position) as Reservation
             val intent = Intent(this@ListPaymentActivity, PaymentActivity::class.java)
             intent.putExtra(ConstantsUtils.TOKEN, user)

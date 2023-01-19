@@ -24,7 +24,7 @@ class ListPaymentAdapter(private val reservations: List<Reservation>, var reserv
         val diffInMinutes = diffInMillisec / (60 * 1000) % 60
         val diffInHours = diffInMillisec / (60 * 60 * 1000) + diffInMinutes / 60.0
         val decimalFormat = DecimalFormat("#.##")
-        val amount = String.format("%.2f", diffInHours * 1.25).toDouble()
+        val amount = String.format("%.2f", diffInHours * 1.25)
 
         view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
         view.findViewById<TextView>(R.id.amount).text = amount.toString()+"€"

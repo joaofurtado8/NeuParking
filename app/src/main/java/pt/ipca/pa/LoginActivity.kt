@@ -101,7 +101,6 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-
     fun login(email: String, password: String, context: Context) {
         showLoading()
         val userData = mapOf(
