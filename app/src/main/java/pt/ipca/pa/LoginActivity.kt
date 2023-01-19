@@ -20,7 +20,6 @@ import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import java.io.IOException
 
-
 private fun isEmailValid(email: String): Boolean {
     val pattern = Patterns.EMAIL_ADDRESS
     return pattern.matcher(email).matches()
@@ -57,9 +56,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
         addClickListener()
-
     }
 
     /** Add view clicks */
@@ -67,8 +64,6 @@ class LoginActivity : AppCompatActivity() {
         findViewById<View>(R.id.login).setOnClickListener {
             val email = editEmail.text.toString().trim()
             val password = editPassword.text.toString().trim()
-
-
 
             if (isFieldEmpty(email) || isFieldEmpty(password)) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -166,14 +161,4 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun addErrorDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Service error!")
-            .setCancelable(false)
-            .setPositiveButton("OK") { dialog, id ->
-                dialog.dismiss()
-            }
-        val alert = builder.create()
-        alert.show()
-    }
 }

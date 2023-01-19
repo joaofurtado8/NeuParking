@@ -1,13 +1,17 @@
 package pt.ipca.pa.Revervation
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -33,6 +37,7 @@ class ReservationActivity : AppCompatActivity() {
     lateinit var editDay: EditText
     lateinit var reservationBtn: Button
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation)
@@ -48,6 +53,33 @@ class ReservationActivity : AppCompatActivity() {
         editDay = findViewById(R.id.day_et)
         reservationBtn = findViewById(R.id.reservation_bt)
 
+        editStartTime.setOnClickListener {
+            val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                val selectedTime = "$hour:$minute"
+                editStartTime.setText(formatTime(selectedTime))
+            }, 0, 0, true)
+            timePickerDialog.show()
+        }
+
+        editEndTime.setOnClickListener {
+            val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                val selectedTime = "$hour:$minute"
+                editEndTime.setText(formatTime(selectedTime))
+            }, 0, 0, true)
+            timePickerDialog.show()
+        }
+
+
+        editDay.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(this)
+            datePickerDialog.setOnDateSetListener { _, year, month, day ->
+                val selectedDate = "$day/${month + 1}/$year"
+                editDay.setText(selectedDate)
+            }
+            datePickerDialog.show()
+        }
+
+
         reservationBtn.setOnClickListener {
             if (editStartTime.text.toString().isEmpty() || editEndTime.text.toString().isEmpty() || editDay.text.toString().isEmpty()){
                 Toast.makeText(this, "Please fill in all fields!", Toast.LENGTH_SHORT).show()
@@ -61,7 +93,7 @@ class ReservationActivity : AppCompatActivity() {
                 Toast.makeText(this, "Invalid end time format!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (!editDay.text.toString().matches(Regex("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/(19|20)[0-9][0-9]$"))){
+            if (!editDay.text.toString().matches(Regex("^([1-9]|[12][0-9]|3[01])/([1-9]|1[012])/(19|20)[0-9][0-9]\$"))){
                 Toast.makeText(this, "Invalid day format!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -129,5 +161,12 @@ class ReservationActivity : AppCompatActivity() {
                 }
             })
 
+    }
+
+    fun formatTime(time: String): String {
+        val parts = time.split(":")
+        val hour = String.format("%02d", parts[0].toInt())
+        val minute = String.format("%02d", parts[1].toInt())
+        return "$hour:$minute"
     }
 }

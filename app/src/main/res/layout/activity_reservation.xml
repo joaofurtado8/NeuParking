@@ -26,6 +26,8 @@
         android:hint="@string/reservation_time"
         android:id="@+id/start_et"
         android:singleLine="true"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/start_time_label"
@@ -50,6 +52,8 @@
         android:hint="@string/reservation_time"
         android:id="@+id/end_et"
         android:singleLine="true"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintTop_toBottomOf="@+id/end_time_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -66,14 +70,15 @@
         android:layout_marginTop="20dp"
         />
 
-
     <EditText
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
-        android:hint="@string/reservation_day"
         android:id="@+id/day_et"
         android:singleLine="true"
+        android:hint="Pick a day"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintTop_toBottomOf="@+id/day_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

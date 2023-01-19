@@ -51,10 +51,10 @@ class PaymentActivity : AppCompatActivity() {
             amount = amount.toString(),
             date = currentDate.toString()
         )
+
         btn_pay.setOnClickListener {
             addPayment(payment, user.token.toString(), this@PaymentActivity)
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
