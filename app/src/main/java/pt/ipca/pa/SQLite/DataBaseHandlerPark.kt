@@ -86,8 +86,6 @@ class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, D
         park.name=mouse.getString(mouse.getColumnIndexOrThrow(NAME))
         return park
     }
-//falta funcoes
-    //ver video
 
 
     companion object{

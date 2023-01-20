@@ -73,18 +73,7 @@ class SlotActivity : SlotView, AppCompatActivity() {
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     listView.adapter = SlotsAdapter(slots, this@SlotActivity)
-                    /*val db = DataBaseHandler(this@SlotActivity)
-                    for (park in parks) {
-                        db.addPark(park)
-                        println("park added: $park.name")
-                    }
 
-
-                    val dbt: List<Park> = db.getParksList();
-                    for (park in dbt) {
-                        db.addPark(park)
-                        println("lindo: $park.name")
-                    }*/
                 }
             }
 

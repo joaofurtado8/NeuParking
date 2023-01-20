@@ -1,4 +1,3 @@
-
 package pt.ipca.pa.Payment
 
 import android.content.Intent
@@ -79,13 +78,9 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     paymentsList.adapter = ListPaymentAdapter(reservations, this@ListPaymentActivity)
-                    val db = DataBaseHandlerReservation(this@ListPaymentActivity)
 
-                    for (reservation in reservations) {
-                        db.addReservation(reservation)
-                    }
+                }
 
-             }
             }
 
         }
