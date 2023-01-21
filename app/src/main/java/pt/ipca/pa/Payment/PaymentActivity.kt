@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -40,15 +41,18 @@ class PaymentActivity : AppCompatActivity() {
         val btn_pay = findViewById<Button>(R.id.btn_pay)
         val amount = intent.getStringExtra(ConstantsUtils.AMOUNT)
         paymentAmount = findViewById<TextView>(R.id.textView3)
+        val spinnerPaymentMethod = findViewById<Spinner>(R.id.spinner_payment_method)
         paymentAmount.text = amount +"€"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val calendar = Calendar.getInstance()
         val currentDate = calendar.time
+        val method = spinnerPaymentMethod.selectedItem.toString()
         val payment = Payment(
             userId = userId.toString(),
             reservationId = reservationId.toString(),
             amount = amount.toString(),
+            method = method,
             date = currentDate.toString()
         )
 
