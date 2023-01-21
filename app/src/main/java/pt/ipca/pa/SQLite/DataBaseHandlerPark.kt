@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import pt.ipca.pa.Park.Park
 
 class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, DB_VERSION) {
@@ -14,12 +15,22 @@ class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, D
         p0?.execSQL(CREATE_TABLE)
     }
 
-    override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
-        val DROP_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME;"
-        p0?.execSQL(DROP_TABLE)
-        onCreate(p0)
+    override fun onUpgrade(
+        db: SQLiteDatabase,
+        oldVersion: Int,
+        newVersion: Int
+    ) {
+        Log.w(
+            DataBaseHandlerPark::class.java.name,
+            "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data"
+        )
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        onCreate(db)
     }
-
+    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.version = oldVersion
+    }
     fun addPark(park: Park) {
         try {
             val p0 = readableDatabase

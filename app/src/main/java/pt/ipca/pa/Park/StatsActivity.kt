@@ -142,6 +142,7 @@ class StatsActivity : StatsView, PrivateActivity() {
     override fun onParkClick(park: Park) {
         Toast.makeText(this@StatsActivity, park.name, Toast.LENGTH_SHORT).show()
     }
+    }
 
 
     class ParksAdapter(private val parks: List<Park>, var statsView: StatsView) : BaseAdapter() {
@@ -173,7 +174,7 @@ class StatsActivity : StatsView, PrivateActivity() {
 
 
 
-}
+
 
 fun isConnected(context: Context): Boolean {
     val connectivityManager =
