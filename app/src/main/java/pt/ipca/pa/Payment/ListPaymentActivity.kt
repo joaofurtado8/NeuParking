@@ -92,8 +92,6 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
     }
 
-
-
     override fun onAllReservationsError(error: String) {
         println("onAllReservationsError $error")
         // Toast.makeText(this@ListPaymentActivity, error, Toast.LENGTH_LONG).show()

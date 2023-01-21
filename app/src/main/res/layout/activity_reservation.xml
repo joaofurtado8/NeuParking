@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgound_app"
     tools:context=".Revervation.ReservationActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/start_time_label"
+        android:textColor="@color/white"
         android:id="@+id/start_time_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,6 +25,7 @@
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
+        android:textColor="@color/white"
         android:hint="@string/reservation_time"
         android:id="@+id/start_et"
         android:singleLine="true"
@@ -35,6 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="@string/end_time_label"
         android:id="@+id/end_time_label"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +53,7 @@
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
+        android:textColor="@color/white"
         android:hint="@string/reservation_time"
         android:id="@+id/end_et"
         android:singleLine="true"
@@ -61,6 +66,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="@string/day_label"
         android:id="@+id/day_label"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +81,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:id="@+id/day_et"
+        android:textColor="@color/white"
         android:singleLine="true"
         android:hint="Pick a day"
         android:focusable="false"
@@ -92,6 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:onClick="perform_action"
+        android:background="@drawable/box_rounded_orange"
         android:backgroundTint="#FFA500"
         android:textColor="@color/black"
         android:textStyle="bold"

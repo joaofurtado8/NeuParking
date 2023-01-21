@@ -15,5 +15,10 @@
     <string name="start_time_label">Start Time</string>
     <string name="end_time_label">End Time</string>
     <string name="day_label">Day</string>
+    <string-array name="payment_methods">
+        <item>MBWay</item>
+        <item>PayPal</item>
+        <item>Multibanco</item>
+    </string-array>
 
 </resources>
