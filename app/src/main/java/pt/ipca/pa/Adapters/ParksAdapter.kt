@@ -1,11 +1,15 @@
 package pt.ipca.pa.Adapters
 
+import android.content.Context
+import android.content.Intent
+import android.net.ConnectivityManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import pt.ipca.pa.Park.Park
+import pt.ipca.pa.Park.StatsActivity
 import pt.ipca.pa.Park.StatsView
 import pt.ipca.pa.R
 

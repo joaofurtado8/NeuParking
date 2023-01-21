@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 import pt.ipca.pa.LoginActivity
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
@@ -39,38 +40,46 @@ class StatsActivity : StatsView, PrivateActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
         listView = findViewById<ListView>(R.id.list_view)
-        val user: User = intent.getSerializableExtra(TOKEN) as User
+
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        btn_slot_page = findViewById(R.id.slot_page)
+        btn_payment_page = findViewById(R.id.payment_page)
+
 
         if (!isConnected(this@StatsActivity)) {
             val db = DataBaseHandlerPark(this@StatsActivity)
             val parks = db.getParksList()
             listView.adapter = ParksAdapter(parks, this@StatsActivity)
             return
+        }else{
+
+                val user: User = intent.getSerializableExtra(TOKEN) as User
+
+
+            btn_slot_page.setOnClickListener {
+                val intent = Intent(this@StatsActivity, SlotActivity::class.java)
+                intent.putExtra(ConstantsUtils.TOKEN, user)
+                intent.putExtra(ConstantsUtils.USER_ID, user.userID)
+                this@StatsActivity.startActivity(intent)
+            }
+
+            btn_payment_page.setOnClickListener {
+                val intent = Intent(this@StatsActivity, ListPaymentActivity::class.java)
+                intent.putExtra(ConstantsUtils.TOKEN, user)
+                intent.putExtra(ConstantsUtils.USER_ID, user.userID)
+                this@StatsActivity.startActivity(intent)
+            }
+
+            controller.bind(this)
+            GlobalScope.launch {
+                controller.getAllParks(user.token)
+            }
         }
 
-        btn_slot_page = findViewById(R.id.slot_page)
-        btn_payment_page = findViewById(R.id.payment_page)
 
-        btn_slot_page.setOnClickListener {
-            val intent = Intent(this@StatsActivity, SlotActivity::class.java)
-            intent.putExtra(ConstantsUtils.TOKEN, user)
-            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
-            this@StatsActivity.startActivity(intent)
-        }
 
-        btn_payment_page.setOnClickListener {
-            val intent = Intent(this@StatsActivity, ListPaymentActivity::class.java)
-            intent.putExtra(ConstantsUtils.TOKEN, user)
-            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
-            this@StatsActivity.startActivity(intent)
-        }
-
-        controller.bind(this)
-        GlobalScope.launch {
-            controller.getAllParks(user.token)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -139,6 +148,9 @@ class StatsActivity : StatsView, PrivateActivity() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val view: View = convertView ?: LayoutInflater.from(parent?.context)
                 .inflate(R.layout.park_item, parent, false)
+
+
+
             val park = parks[position]
             view.findViewById<TextView>(R.id.park_name_tv).text = park.name
             view.findViewById<TextView>(R.id.park_free_spots_tv).text =
@@ -159,10 +171,13 @@ class StatsActivity : StatsView, PrivateActivity() {
     }
 
 
-    fun isConnected(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = connectivityManager.activeNetworkInfo
-        return activeNetwork != null && activeNetwork.isConnected
-    }
+
+
+}
+
+fun isConnected(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork = connectivityManager.activeNetworkInfo
+    return activeNetwork != null && activeNetwork.isConnected
 }

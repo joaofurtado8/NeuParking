@@ -2,6 +2,7 @@ package pt.ipca.pa
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -15,6 +16,7 @@ import com.auth0.jwt.JWT
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import pt.ipca.pa.Park.StatsActivity
+import pt.ipca.pa.SQLite.DataBaseHandlerPark
 import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import java.io.IOException
@@ -42,6 +44,12 @@ class LoginActivity : AppCompatActivity() {
         btn_register = findViewById(R.id.register)
         mainView = findViewById(R.id.const_main_view)
         loading = findViewById(R.id.pBar)
+
+        if (!isConnected(this@LoginActivity)) {
+            val intent = Intent(this, StatsActivity::class.java)
+            this.startActivity(intent)
+
+        }
 
         val preferences = getSharedPreferences("user_credentials", MODE_PRIVATE)
         val email = preferences.getString("email", "")
@@ -160,4 +168,10 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    fun isConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
+    }
 }

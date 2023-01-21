@@ -31,6 +31,8 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
             var cursor =p0.rawQuery(selectquery,null)
             if(cursor.count <= 0) {
                 val values= ContentValues().apply{
+                    put(ID, reservation.id)
+                    put(SLOT_ID, reservation.slotId)
                     put(START_TIME, reservation.startTime)
                     put(END_TIME, reservation.endTime)
                     put(DAY, reservation.day)
@@ -94,7 +96,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
 
 
     companion object{
-        private val DB_VERSION=2
+        private val DB_VERSION=1
         private val DB_NAME="PDM"
         private val ID="ID"
         private val SLOT_ID="Slot_ID"
