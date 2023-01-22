@@ -16,7 +16,7 @@ import java.util.jar.Attributes
 class DataBaseHandlerPayments(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        var CREATE_TABLE = "CREATE TABLE $TABLE_NAME($ID TEXT PRIMARY KEY, $Reservation_ID TEXT, $AMOUNT INTEGRE, $DATE TEXT);"
+        var CREATE_TABLE = "CREATE TABLE $TABLE_NAME($ID TEXT PRIMARY KEY, $Reservation_ID TEXT, $AMOUNT TEXT, $DATE TEXT);"
         db?.execSQL(CREATE_TABLE)
     }
 

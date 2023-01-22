@@ -12,7 +12,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
 
     //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
-        var CREATE_TABLE="CREATE TABLE $TABLE_NAME($ID TEXT ,$SLOT_ID TEXT, $START_TIME TEXT, $END_TIME TEXT, $DAY TEXT);"
+        var CREATE_TABLE="CREATE TABLE $TABLE_NAME($ID TEXT ,$AMOUNT TEXT, $SLOT_ID TEXT, $START_TIME TEXT, $END_TIME TEXT, $DAY TEXT);"
         p0?.execSQL(CREATE_TABLE)
     }
 
@@ -43,6 +43,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
             if(cursor.count <= 0) {
                 val values= ContentValues().apply{
                     put(ID, reservation.id)
+                    put(AMOUNT, reservation.amount)
                     put(SLOT_ID, reservation.slotId)
                     put(START_TIME, reservation.startTime)
                     put(END_TIME, reservation.endTime)
@@ -95,6 +96,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
     fun ppReservation(mouse:Cursor):Reservation{
         var reservation=Reservation("","","","","","","")
         reservation.id=mouse.getString(mouse.getColumnIndexOrThrow(ID))
+        reservation.amount=mouse.getString(mouse.getColumnIndexOrThrow(AMOUNT))
         reservation.slotId=mouse.getString(mouse.getColumnIndexOrThrow(SLOT_ID))
         reservation.startTime=mouse.getString(mouse.getColumnIndexOrThrow(START_TIME))
         reservation.endTime=mouse.getString(mouse.getColumnIndexOrThrow(END_TIME))
@@ -110,6 +112,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
         private val DB_VERSION=1
         private val DB_NAME="PDM"
         private val ID="ID"
+        private val AMOUNT = "Amount"
         private val SLOT_ID="Slot_ID"
         private val TABLE_NAME="Reservations"
         private val START_TIME="Star_time"

@@ -28,7 +28,6 @@ import pt.ipca.pa.utils.ConstantsUtils
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import retrofit2.Response
 
-
 class StatsActivity : StatsView, PrivateActivity() {
     lateinit var listView: ListView
     private val viewModel = StatsModel()
@@ -41,7 +40,6 @@ class StatsActivity : StatsView, PrivateActivity() {
         setContentView(R.layout.activity_stats)
         listView = findViewById<ListView>(R.id.list_view)
 
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         btn_slot_page = findViewById(R.id.slot_page)
@@ -52,6 +50,13 @@ class StatsActivity : StatsView, PrivateActivity() {
             val db = DataBaseHandlerPark(this@StatsActivity)
             val parks = db.getParksList()
             listView.adapter = ParksAdapter(parks, this@StatsActivity)
+            btn_payment_page.setOnClickListener {
+                val intent = Intent(this@StatsActivity, ListPaymentActivity::class.java)
+                this@StatsActivity.startActivity(intent)
+            }
+            btn_slot_page.setOnClickListener {
+                Toast.makeText(this@StatsActivity, "No Connection", Toast.LENGTH_LONG).show()
+            }
             return
         }else{
 
@@ -77,9 +82,6 @@ class StatsActivity : StatsView, PrivateActivity() {
                 controller.getAllParks(user.token)
             }
         }
-
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -150,12 +152,9 @@ class ParksAdapter(private val parks: List<Park>, var statsView: StatsView) : Ba
         val view: View = convertView ?: LayoutInflater.from(parent?.context)
             .inflate(R.layout.park_item, parent, false)
 
-
-
         val park = parks[position]
         view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-        view.findViewById<TextView>(R.id.park_free_spots_tv).text =
-            park.availableSpots.toString() + " free spaces"
+        view.findViewById<TextView>(R.id.park_free_spots_tv).text = "No connection"
         view.setOnClickListener {
             statsView.onParkClick(park)
         }

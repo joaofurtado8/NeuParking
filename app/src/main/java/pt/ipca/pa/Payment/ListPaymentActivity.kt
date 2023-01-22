@@ -16,9 +16,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.ipca.pa.Adapters.ListPaymentAdapter
+import pt.ipca.pa.Park.ParksAdapter
+import pt.ipca.pa.Park.isConnected
 import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.Reservation
 import pt.ipca.pa.Revervation.ReservationView
+import pt.ipca.pa.SQLite.DataBaseHandlerPark
 import pt.ipca.pa.SQLite.DataBaseHandlerReservation
 import pt.ipca.pa.controller.ReservationController
 import pt.ipca.pa.data.User
@@ -38,33 +41,39 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_payment)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
-
         paymentsList = findViewById<ListView>(R.id.list_view)
-        println("on")
 
-        paymentsList.setOnItemClickListener { parent, view, position, id ->
-            println("item")
-            val item = parent.getItemAtPosition(position) as Reservation
-            val intent = Intent(this@ListPaymentActivity, PaymentActivity::class.java)
-            intent.putExtra(ConstantsUtils.TOKEN, user)
-            intent.putExtra("RES", item.id)
-            intent.putExtra(ConstantsUtils.USER_ID, user.userID)
-            intent.putExtra(ConstantsUtils.AMOUNT, item.amount)
+        if (!isConnected(this@ListPaymentActivity)) {
+            val db = DataBaseHandlerReservation(this@ListPaymentActivity)
+            val reservations = db.getReservationList()
+            paymentsList.adapter = ListPaymentAdapter(reservations, this@ListPaymentActivity)
+            return
+        }else{
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+            val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
 
 
-            this@ListPaymentActivity.startActivity(intent)
+            paymentsList.setOnItemClickListener { parent, view, position, id ->
 
-            Toast.makeText(this@ListPaymentActivity, "You clicked on ${item.id}", Toast.LENGTH_SHORT).show()
+                val item = parent.getItemAtPosition(position) as Reservation
+                val intent = Intent(this@ListPaymentActivity, PaymentActivity::class.java)
+                intent.putExtra(ConstantsUtils.TOKEN, user)
+                intent.putExtra("RES", item.id)
+                intent.putExtra(ConstantsUtils.USER_ID, user.userID)
+                intent.putExtra(ConstantsUtils.AMOUNT, item.amount)
+
+                this@ListPaymentActivity.startActivity(intent)
+
+                Toast.makeText(this@ListPaymentActivity, "You clicked on ${item.id}", Toast.LENGTH_SHORT).show()
+            }
+
+            controller.bind(this@ListPaymentActivity)
+            GlobalScope.launch {
+                controller.getReservationsByUser(user.token, user.userID.toString())
+            }
         }
 
-        controller.bind(this@ListPaymentActivity)
-        GlobalScope.launch {
-            controller.getReservationsByUser(user.token, user.userID.toString())
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,7 +87,10 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     paymentsList.adapter = ListPaymentAdapter(reservations, this@ListPaymentActivity)
-
+                    val db = DataBaseHandlerReservation(this@ListPaymentActivity)
+                    for (reservation in reservations) {
+                        db.addReservation(reservation)
+                    }
                 }
 
             }
