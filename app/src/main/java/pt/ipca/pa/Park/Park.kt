@@ -1,10 +1,11 @@
 package pt.ipca.pa.Park
 
 data class Park(
+    val id: String,
     var name: String,
-    val location: String,
-    val description: String,
+    val ocupiedSpots: Number,
+    val description: Number,
     val availableSpots: Number,
-    val imageUrl: String
+    val totalSpots: Number
 )
 
