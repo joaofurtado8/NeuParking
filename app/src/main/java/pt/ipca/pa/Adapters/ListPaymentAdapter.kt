@@ -17,18 +17,8 @@ class ListPaymentAdapter(private val reservations: List<Reservation>, var reserv
             .inflate(R.layout.reservation_item, parent, false)
         val reservation = reservations[position]
 
-        val dateFormat = SimpleDateFormat("HH:mm:ss")
-        val startTime = dateFormat.parse(reservation.startTime)
-        val endTime = dateFormat.parse(reservation.endTime)
-        val diffInMillisec = endTime.time - startTime.time
-        val diffInMinutes = diffInMillisec / (60 * 1000) % 60
-        val diffInHours = diffInMillisec / (60 * 60 * 1000) + diffInMinutes / 60.0
-        val decimalFormat = DecimalFormat("#.##")
-        val amount = String.format("%.2f", diffInHours * 1.25)
-
-        view.findViewById<TextView>(R.id.date).text = reservation.day.toString()
-        view.findViewById<TextView>(R.id.amount).text = amount.toString()+"€"
-        reservation.amount = amount
+        view.findViewById<TextView>(R.id.date).text = reservation.day
+        view.findViewById<TextView>(R.id.amount).text = reservation.amount +"€"
 
         return view
     }
@@ -38,3 +28,5 @@ class ListPaymentAdapter(private val reservations: List<Reservation>, var reserv
 
     override fun getCount() = reservations.size
 }
+
+

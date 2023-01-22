@@ -2,12 +2,14 @@ package pt.ipca.pa.Payment
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -57,7 +59,19 @@ class PaymentActivity : AppCompatActivity() {
         )
 
         btn_pay.setOnClickListener {
-            addPayment(payment, user.token.toString(), this@PaymentActivity)
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirm Reservation")
+            builder.setMessage("Are you sure you want to make this payment?")
+            builder.setPositiveButton("YES") { _, _ ->
+                addPayment(payment, user.token.toString(), this@PaymentActivity)
+
+            }
+            builder.setNegativeButton("NO") { _, _ ->
+
+            }
+            val alertDialog = builder.create()
+            alertDialog.show()
+
         }
     }
 
@@ -111,6 +125,4 @@ class PaymentActivity : AppCompatActivity() {
 
    
 }
-
-
 

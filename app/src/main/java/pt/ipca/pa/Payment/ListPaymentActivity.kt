@@ -1,6 +1,8 @@
 package pt.ipca.pa.Payment
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -16,7 +18,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pt.ipca.pa.Adapters.ListPaymentAdapter
-import pt.ipca.pa.Park.ParksAdapter
+import pt.ipca.pa.Park.Park
 import pt.ipca.pa.Park.isConnected
 import pt.ipca.pa.R
 import pt.ipca.pa.Revervation.Reservation
@@ -46,6 +48,10 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
         if (!isConnected(this@ListPaymentActivity)) {
             val db = DataBaseHandlerReservation(this@ListPaymentActivity)
             val reservations = db.getReservationList()
+            for (res in reservations) {
+                println("teste $res")
+            }
+            println(reservations)
             paymentsList.adapter = ListPaymentAdapter(reservations, this@ListPaymentActivity)
             return
         }else{
@@ -89,7 +95,21 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
                     paymentsList.adapter = ListPaymentAdapter(reservations, this@ListPaymentActivity)
                     val db = DataBaseHandlerReservation(this@ListPaymentActivity)
                     for (reservation in reservations) {
+                        val dateFormat = SimpleDateFormat("HH:mm:ss")
+                        val startTime = dateFormat.parse(reservation.startTime)
+                        val endTime = dateFormat.parse(reservation.endTime)
+                        val diffInMillisec = endTime.time - startTime.time
+                        val diffInMinutes = diffInMillisec / (60 * 1000) % 60
+                        val diffInHours = diffInMillisec / (60 * 60 * 1000) + diffInMinutes / 60.0
+                        val amount = String.format("%.2f", diffInHours * 1.25)
+                        reservation.amount= amount
+                        println(reservation.day)
                         db.addReservation(reservation)
+                    }
+                    val reservations = db.getReservationList()
+                    val dbt: List<Reservation> = db.getReservationList();
+                    for (res in reservations) {
+                        println("teste $res")
                     }
                 }
 
@@ -108,5 +128,11 @@ class ListPaymentActivity :ReservationView, AppCompatActivity() {
     override fun onReservationClick(reservation: Reservation) {
 
         // Toast.makeText(this@ListPaymentActivity, reservation.slotId, Toast.LENGTH_SHORT).show()
+    }
+    fun isConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
     }
 }

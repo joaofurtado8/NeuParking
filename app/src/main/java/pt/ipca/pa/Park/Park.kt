@@ -5,7 +5,7 @@ data class Park(
     var name: String,
     val ocupiedSpots: Number,
     val description: Number,
-    val availableSpots: Number,
+    var availableSpots: String,
     val totalSpots: Number
 )
 

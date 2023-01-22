@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import pt.ipca.pa.Adapters.ParksAdapter
 import pt.ipca.pa.LoginActivity
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
@@ -45,11 +45,10 @@ class StatsActivity : StatsView, PrivateActivity() {
         btn_slot_page = findViewById(R.id.slot_page)
         btn_payment_page = findViewById(R.id.payment_page)
 
-
         if (!isConnected(this@StatsActivity)) {
             val db = DataBaseHandlerPark(this@StatsActivity)
             val parks = db.getParksList()
-            listView.adapter = ParksAdapter(parks, this@StatsActivity)
+            listView.adapter = ParksAdapter(parks, this@StatsActivity, this@StatsActivity)
             btn_payment_page.setOnClickListener {
                 val intent = Intent(this@StatsActivity, ListPaymentActivity::class.java)
                 this@StatsActivity.startActivity(intent)
@@ -59,9 +58,7 @@ class StatsActivity : StatsView, PrivateActivity() {
             }
             return
         }else{
-
             val user: User = intent.getSerializableExtra(TOKEN) as User
-
 
             btn_slot_page.setOnClickListener {
                 val intent = Intent(this@StatsActivity, SlotActivity::class.java)
@@ -123,7 +120,7 @@ class StatsActivity : StatsView, PrivateActivity() {
         response.body()?.let { parks ->
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
-                    listView.adapter = ParksAdapter(parks, this@StatsActivity)
+                    listView.adapter = ParksAdapter(parks, this@StatsActivity, this@StatsActivity)
                     val db = DataBaseHandlerPark(this@StatsActivity)
                     for (park in parks) {
                         db.addPark(park)
@@ -145,35 +142,6 @@ class StatsActivity : StatsView, PrivateActivity() {
         Toast.makeText(this@StatsActivity, park.name, Toast.LENGTH_SHORT).show()
     }
 }
-
-
-class ParksAdapter(private val parks: List<Park>, var statsView: StatsView) : BaseAdapter() {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view: View = convertView ?: LayoutInflater.from(parent?.context)
-            .inflate(R.layout.park_item, parent, false)
-
-        val park = parks[position]
-        view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-        view.findViewById<TextView>(R.id.park_free_spots_tv).text = "No connection"
-        view.setOnClickListener {
-            statsView.onParkClick(park)
-        }
-        return view
-    }
-
-    override fun getItem(position: Int) = parks[position]
-
-    override fun getItemId(position: Int) = position.toLong()
-
-    override fun getCount() = parks.size
-
-
-}
-
-
-
-
-
 
 fun isConnected(context: Context): Boolean {
     val connectivityManager =

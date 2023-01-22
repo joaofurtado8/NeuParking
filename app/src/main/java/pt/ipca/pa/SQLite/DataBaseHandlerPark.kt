@@ -11,7 +11,7 @@ import pt.ipca.pa.Park.Park
 class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, DB_VERSION) {
     //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
-        var CREATE_TABLE = "CREATE TABLE $TABLE_NAME($ID INTEGER ,$NAME TEXT, $LOCATION TEXT, $DESCRIPTION TEXT, $AVALAIBLESPOTS INTEGER);"
+        var CREATE_TABLE = "CREATE TABLE $TABLE_NAME($ID INTEGER ,$NAME TEXT, $LOCATION TEXT, $DESCRIPTION TEXT, $AVALAIBLESPOTS TEXT);"
         p0?.execSQL(CREATE_TABLE)
     }
 
@@ -40,7 +40,7 @@ class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, D
                 val p1 = writableDatabase
                 val values = ContentValues().apply {
                     put(NAME, park.name)
-                    put(AVALAIBLESPOTS, park.availableSpots.toInt())
+                    put(AVALAIBLESPOTS, park.availableSpots)
                 }
                 p1.insert(TABLE_NAME, null, values)
             }
@@ -49,7 +49,6 @@ class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, D
             e.printStackTrace()
         }
     }
-
 
     //DEVOLVE VALORES POR PESQUISA
     fun getPark(name:String):Park? {
@@ -91,7 +90,7 @@ class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, D
 
 
     fun ppPark(mouse:Cursor):Park{
-        var park=Park("","",0,0,0,0)
+        var park=Park("","",0,0,"",0)
         park.name=mouse.getString(mouse.getColumnIndexOrThrow(NAME))
         return park
     }

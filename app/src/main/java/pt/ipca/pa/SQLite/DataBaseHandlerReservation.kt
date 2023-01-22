@@ -9,26 +9,20 @@ import android.util.Log
 import pt.ipca.pa.Revervation.Reservation
 
 class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,DB_VERSION) {
-
     //Primeira vez que entrar cria a tabela
     override fun onCreate(p0: SQLiteDatabase?) {
-        var CREATE_TABLE="CREATE TABLE $TABLE_NAME($ID TEXT ,$AMOUNT TEXT, $SLOT_ID TEXT, $START_TIME TEXT, $END_TIME TEXT, $DAY TEXT);"
+        var CREATE_TABLE="CREATE TABLE $TABLE_NAME($ID TEXT ,$AMOUNT TEXT, $DAY TEXT);"
         p0?.execSQL(CREATE_TABLE)
     }
 
 
     override fun onUpgrade(
-        db: SQLiteDatabase,
-        oldVersion: Int,
-        newVersion: Int
+        p0: SQLiteDatabase?, p1: Int, p2: Int
     ) {
-        Log.w(
-            DataBaseHandlerPark::class.java.name,
-            "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data"
-        )
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
-        onCreate(db)
+        println("dropped table")
+        val DROP_TABLE="DROP TABLE IF EXISTS $TABLE_NAME;"
+        p0?.execSQL(DROP_TABLE)
+        onCreate(p0)
     }
 
     override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -44,9 +38,6 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
                 val values= ContentValues().apply{
                     put(ID, reservation.id)
                     put(AMOUNT, reservation.amount)
-                    put(SLOT_ID, reservation.slotId)
-                    put(START_TIME, reservation.startTime)
-                    put(END_TIME, reservation.endTime)
                     put(DAY, reservation.day)
                 }
                 p0.insert(TABLE_NAME,null,values)
@@ -77,7 +68,7 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
             val p0 =readableDatabase
             val selectQuery="SELECT * FROM $TABLE_NAME"
             val mouse =p0.rawQuery(selectQuery,null)
-            if(mouse!=null)
+            if(mouse.count > 0)
                 if(mouse.moveToFirst()){
                     do{
                         val reservation=ppReservation(mouse)
@@ -97,26 +88,17 @@ class DataBaseHandlerReservation(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,nul
         var reservation=Reservation("","","","","","","")
         reservation.id=mouse.getString(mouse.getColumnIndexOrThrow(ID))
         reservation.amount=mouse.getString(mouse.getColumnIndexOrThrow(AMOUNT))
-        reservation.slotId=mouse.getString(mouse.getColumnIndexOrThrow(SLOT_ID))
-        reservation.startTime=mouse.getString(mouse.getColumnIndexOrThrow(START_TIME))
-        reservation.endTime=mouse.getString(mouse.getColumnIndexOrThrow(END_TIME))
-        reservation.day=mouse.getString(mouse.getColumnIndexOrThrow(DAY))
+        reservation.day= mouse.getString(mouse.getColumnIndexOrThrow(DAY))
         return reservation
     }
-
-
-
-
 
     companion object{
         private val DB_VERSION=1
         private val DB_NAME="PDM"
         private val ID="ID"
         private val AMOUNT = "Amount"
-        private val SLOT_ID="Slot_ID"
+        private val DAY = "Day"
         private val TABLE_NAME="Reservations"
-        private val START_TIME="Star_time"
-        private val END_TIME="End_Time"
-        private val DAY="Day"
+
     }
 }
