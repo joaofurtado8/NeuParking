@@ -96,7 +96,7 @@ class DataBaseHandlerPayments(ctx:Context):SQLiteOpenHelper(ctx, DB_NAME ,null,D
 
 
     fun ppPayment(cursor: Cursor): Payment {
-        val payment = Payment(null, "", "", "", "")
+        val payment = Payment(null, "", "", "", "","")
         payment.id = cursor.getString(cursor.getColumnIndexOrThrow(ID))
         payment.reservationId = cursor.getString(cursor.getColumnIndexOrThrow(Reservation_ID))
         payment.amount = cursor.getString(cursor.getColumnIndexOrThrow(AMOUNT))

@@ -7,6 +7,7 @@ data class Payment(
     var userId: String,
     var reservationId: String,
     var amount: String,
+    var method: String,
     var date: String
 )
 
