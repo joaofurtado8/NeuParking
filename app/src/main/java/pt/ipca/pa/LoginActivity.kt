@@ -16,7 +16,7 @@ import com.auth0.jwt.JWT
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import pt.ipca.pa.Park.StatsActivity
-import pt.ipca.pa.SQLite.DataBaseHandlerPark
+//import pt.ipca.pa.SQLite.DataBaseHandlerPark
 import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import java.io.IOException

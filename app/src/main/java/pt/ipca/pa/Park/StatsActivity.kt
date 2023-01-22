@@ -19,6 +19,7 @@ import pt.ipca.pa.LoginActivity
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
 import pt.ipca.pa.R
+import pt.ipca.pa.Revervation.ReservationActivity
 import pt.ipca.pa.SQLite.DataBaseHandlerPark
 import pt.ipca.pa.Slots.SlotActivity
 import pt.ipca.pa.controller.StatsController
@@ -40,8 +41,7 @@ class StatsActivity : StatsView, PrivateActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
         listView = findViewById<ListView>(R.id.list_view)
-
-
+        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         btn_slot_page = findViewById(R.id.slot_page)

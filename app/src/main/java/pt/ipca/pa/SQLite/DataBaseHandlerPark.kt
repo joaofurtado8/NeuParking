@@ -40,8 +40,6 @@ class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, D
                 val p1 = writableDatabase
                 val values = ContentValues().apply {
                     put(NAME, park.name)
-                    put(LOCATION, park.location)
-                    put(DESCRIPTION, park.description)
                     put(AVALAIBLESPOTS, park.availableSpots.toInt())
                 }
                 p1.insert(TABLE_NAME, null, values)
@@ -93,7 +91,7 @@ class DataBaseHandlerPark(ctx: Context) : SQLiteOpenHelper(ctx, DB_NAME, null, D
 
 
     fun ppPark(mouse:Cursor):Park{
-        var park=Park("","","",0,"",)
+        var park=Park("","",0,0,0,0)
         park.name=mouse.getString(mouse.getColumnIndexOrThrow(NAME))
         return park
     }
