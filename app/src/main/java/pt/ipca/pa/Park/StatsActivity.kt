@@ -19,7 +19,6 @@ import pt.ipca.pa.LoginActivity
 import pt.ipca.pa.Payment.ListPaymentActivity
 import pt.ipca.pa.PrivateActivity
 import pt.ipca.pa.R
-import pt.ipca.pa.Revervation.ReservationActivity
 import pt.ipca.pa.SQLite.DataBaseHandlerPark
 import pt.ipca.pa.Slots.SlotActivity
 import pt.ipca.pa.controller.StatsController
@@ -41,7 +40,8 @@ class StatsActivity : StatsView, PrivateActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
         listView = findViewById<ListView>(R.id.list_view)
-        val user: User = intent.getSerializableExtra(ConstantsUtils.TOKEN) as User
+
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         btn_slot_page = findViewById(R.id.slot_page)
@@ -55,7 +55,7 @@ class StatsActivity : StatsView, PrivateActivity() {
             return
         }else{
 
-                val user: User = intent.getSerializableExtra(TOKEN) as User
+            val user: User = intent.getSerializableExtra(TOKEN) as User
 
 
             btn_slot_page.setOnClickListener {
@@ -142,34 +142,34 @@ class StatsActivity : StatsView, PrivateActivity() {
     override fun onParkClick(park: Park) {
         Toast.makeText(this@StatsActivity, park.name, Toast.LENGTH_SHORT).show()
     }
-    }
+}
 
 
-    class ParksAdapter(private val parks: List<Park>, var statsView: StatsView) : BaseAdapter() {
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val view: View = convertView ?: LayoutInflater.from(parent?.context)
-                .inflate(R.layout.park_item, parent, false)
+class ParksAdapter(private val parks: List<Park>, var statsView: StatsView) : BaseAdapter() {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View = convertView ?: LayoutInflater.from(parent?.context)
+            .inflate(R.layout.park_item, parent, false)
 
 
 
-            val park = parks[position]
-            view.findViewById<TextView>(R.id.park_name_tv).text = park.name
-            view.findViewById<TextView>(R.id.park_free_spots_tv).text =
-                park.availableSpots.toString() + " free spaces"
-            view.setOnClickListener {
-                statsView.onParkClick(park)
-            }
-            return view
+        val park = parks[position]
+        view.findViewById<TextView>(R.id.park_name_tv).text = park.name
+        view.findViewById<TextView>(R.id.park_free_spots_tv).text =
+            park.availableSpots.toString() + " free spaces"
+        view.setOnClickListener {
+            statsView.onParkClick(park)
         }
-
-        override fun getItem(position: Int) = parks[position]
-
-        override fun getItemId(position: Int) = position.toLong()
-
-        override fun getCount() = parks.size
-
-
+        return view
     }
+
+    override fun getItem(position: Int) = parks[position]
+
+    override fun getItemId(position: Int) = position.toLong()
+
+    override fun getCount() = parks.size
+
+
+}
 
 
 

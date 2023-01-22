@@ -16,7 +16,7 @@ import com.auth0.jwt.JWT
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import pt.ipca.pa.Park.StatsActivity
-//import pt.ipca.pa.SQLite.DataBaseHandlerPark
+import pt.ipca.pa.SQLite.DataBaseHandlerPark
 import pt.ipca.pa.data.User
 import pt.ipca.pa.utils.ConstantsUtils.Companion.TOKEN
 import java.io.IOException
@@ -91,15 +91,15 @@ class LoginActivity : AppCompatActivity() {
     private fun showLoading() {
         runOnUiThread( Runnable() {
 
-        mainView.visibility = View.GONE
-        loading.visibility = View.VISIBLE
+            mainView.visibility = View.GONE
+            loading.visibility = View.VISIBLE
         })
     }
 
     private fun hideLoading() {
         runOnUiThread( Runnable() {
-        mainView.visibility = View.VISIBLE
-        loading.visibility = View.GONE
+            mainView.visibility = View.VISIBLE
+            loading.visibility = View.GONE
         })
     }
 
@@ -110,10 +110,10 @@ class LoginActivity : AppCompatActivity() {
         )
 
         val request = Request.Builder().url("https://smart-api.onrender.com/login/").post(
-                RequestBody.create(
-                    "application/json; charset=utf-8".toMediaTypeOrNull(), userData.toJson()
-                )
-            ).build()
+            RequestBody.create(
+                "application/json; charset=utf-8".toMediaTypeOrNull(), userData.toJson()
+            )
+        ).build()
 
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
